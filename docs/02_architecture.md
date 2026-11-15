@@ -5,7 +5,7 @@ Chi tiết từng thành phần nằm ở file riêng; file này chỉ giữ ph�
 ## Hiện trạng
 - Repo mới, chưa có code, dữ liệu hay mô hình.
 - Tái sử dụng `torchvision`: transform, RandAugment, CIFAR-100.
-- Cấu trúc thư mục code lấy từ mục 4 của [spec](../AGENT_SPEC_ViT_TinyImageNet.md), với gốc repo là gốc project (DEC-004).
+- Cấu trúc thư mục code lấy từ mục 4 của [spec](../SPEC_ViT.md), với gốc repo là gốc project (DEC-004).
 
 ## Sơ đồ
 

@@ -22,7 +22,7 @@
 
 ## When — Khi nào?
 - **Tình huống/kích hoạt:** Người dùng chạy lệnh train, đánh giá hoặc mở demo khi cần kết quả; giảng viên chạy lại theo README khi chấm.
-- **Thời hạn và mốc:** Hạn nộp 2026-11-20, nhóm đặt mục tiêu nộp 2026-11-19. Các mốc ở [03_plan.md](03_plan.md).
+- **Thời hạn và mốc:** Hạn nộp 2026-11-25 (giảng viên gia hạn từ 2026-11-20), nhóm đặt mục tiêu nộp 2026-11-24. Các mốc ở [03_plan.md](03_plan.md).
 
 ## Where — Ở đâu?
 - **Nơi dùng, thiết bị, môi trường:** Phát triển trên máy cá nhân (máy của TV viết tài liệu chỉ có CPU); train trên máy có GPU 6GB VRAM của một thành viên khác trong nhóm, máy rảnh trong thời gian train; Kaggle hoặc Colab là phương án dự phòng.
@@ -38,7 +38,7 @@
 - **Làm thêm nếu còn thời gian:** Grad-CAM, đo FLOPs/MACs, 3 seed, ablation, CNN thứ hai có FLOPs xấp xỉ ViT, attention theo head và theo layer.
 - **Ngoài phạm vi:** Deepfake (giáo viên đã xóa), ViT pretrained (nhóm quyết định bỏ), train ở độ phân giải cao, API công khai, triển khai production.
 - **Công nghệ, công cụ hoặc lựa chọn bắt buộc:** Đề bắt buộc ViT và dữ liệu Tiny ImageNet hoặc CIFAR-100. Nhóm tự chọn PyTorch và tự cài ViT.
-- **Ràng buộc thời gian, chi phí, dữ liệu:** 13 ngày, chỉ có một máy GPU trong nhóm nên các lần train chạy lần lượt, không dùng test để chọn cấu hình, không bịa số liệu.
+- **Ràng buộc thời gian, chi phí, dữ liệu:** Khoảng 10 ngày tính từ 15/11, chỉ có một máy GPU trong nhóm nên các lần train chạy lần lượt, không dùng test để chọn cấu hình, không bịa số liệu.
 - **Lưu ý:** đây là diễn giải đề xuất; đối chiếu nghĩa Which với hướng dẫn của cô.
 
 ## How — Hướng thực hiện
@@ -58,7 +58,7 @@
 
 ## Yêu cầu chức năng
 
-Chi tiết từng yêu cầu và tiêu chí nghiệm thu (AC) nằm ở file thành phần. Các ngưỡng số lấy từ [AGENT_SPEC_ViT_TinyImageNet.md](../AGENT_SPEC_ViT_TinyImageNet.md).
+Chi tiết từng yêu cầu và tiêu chí nghiệm thu (AC) nằm ở file thành phần. Các ngưỡng số lấy từ [SPEC_ViT.md](../SPEC_ViT.md).
 
 | Mã | Yêu cầu | AC | File |
 |---|---|---|---|
@@ -89,7 +89,7 @@ Chi tiết từng yêu cầu và tiêu chí nghiệm thu (AC) nằm ở file th�
 - **Hiệu năng:** Máy train có 6GB VRAM. Mặc định batch 64, lr 2,5e-4, ViT và CNN cùng batch. Đo VRAM đỉnh bằng `--quick` trước khi train thật. Chưa đặt ngưỡng tốc độ; đo và báo cáo thời gian mỗi epoch và số ảnh/giây.
 - **Độ tin cậy kết quả:** Tập test 10.000 ảnh cho sai số khoảng ±0,5 điểm phần trăm, và chỉ có 1 seed. Chênh lệch giữa ViT và CNN dưới khoảng 1–1,5 điểm không đủ để kết luận mô hình nào tốt hơn. Nếu chạy 3 seed thì cập nhật câu này.
 - **Khả năng tái lập:** Seed cố định, siêu tham số nằm trong YAML, không hardcode đường dẫn.
-- **Khả năng bảo trì:** Type hint, docstring ngắn. Từ TASK-001 trở đi, thay đổi đi qua nhánh riêng và PR có người review (TV1 duyệt; PR của chính TV1 do TV4 duyệt); giai đoạn tài liệu làm thẳng trên `main`.
+- **Khả năng bảo trì:** Type hint, docstring ngắn. Thay đổi của TV2-TV5 đi qua nhánh riêng và PR có TV1 review; TV1 làm thẳng trên `main`, nên phần của TV1 được kiểm bằng test tự động thay cho review.
 - **Thiết bị và trình duyệt hỗ trợ:** Python 3.10+; demo chạy trên trình duyệt bằng CPU.
 
 ## Câu hỏi và giả định chưa chốt
@@ -99,7 +99,7 @@ Chi tiết từng yêu cầu và tiêu chí nghiệm thu (AC) nằm ở file th�
 | Nghĩa của "Which" trong mẫu Define | Phải sửa mục Which | TV1 hỏi giảng viên | Chưa xác nhận |
 | Nhóm người dùng do nhóm tự đề xuất | Phải sửa mẫu đăng ký | Cả nhóm | Chưa xác nhận |
 | Quyền sử dụng Tiny ImageNet cho mục đích học tập | Phải điền lại mẫu hoặc đổi dữ liệu | TV1 | Chưa xác nhận |
-| Nơi nộp mẫu đăng ký, có cần duyệt không | Ảnh hưởng lịch | TV1 | Chưa xác nhận |
+| Nơi nộp mẫu đăng ký, có cần duyệt không | Ảnh hưởng lịch | TV1 | Đã nộp 15/11; giảng viên chưa phản hồi về việc duyệt |
 | Giảng viên có quy định khác ngoài phần đã thấy trên sheet | Thiếu sản phẩm phải nộp | TV1 | Chưa xác nhận |
 | Bằng chứng các bước Describe, Review, Test, Commit để trên GitHub Issue/PR thay vì file trong `docs/` | Phải chép lại vào file | TV1 hỏi giảng viên | Chưa xác nhận |
 | Tải được Tiny ImageNet từ Kaggle | Chuyển sang CIFAR-100 | TV4 | Chưa thử |

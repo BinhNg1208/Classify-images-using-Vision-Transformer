@@ -30,7 +30,7 @@ Chưa có. Lệnh dự kiến nằm trong mục "Cách chạy" của từng file
 |---|---|
 | [Project_description.md](Project_description.md) | Tóm tắt Define, Design, Plan và mục lục `docs/` |
 | [docs/](docs/) | Tài liệu theo thành phần: dữ liệu, mô hình, huấn luyện, đánh giá, demo; kèm define, kiến trúc, quyết định, kế hoạch, nhật ký |
-| [AGENT_SPEC_ViT_TinyImageNet.md](AGENT_SPEC_ViT_TinyImageNet.md) | Yêu cầu kỹ thuật chi tiết, nháp mẫu đăng ký |
+| [SPEC_ViT.md](SPEC_ViT.md) | Yêu cầu kỹ thuật chi tiết, nháp mẫu đăng ký |
 | [AGENTS.md](AGENTS.md) | Quy tắc cho người và AI khi làm việc trong repo |
 | [AI_Usage.md](AI_Usage.md) | Ghi nhận việc dùng AI |
 | [workflow/](workflow/) | Quy trình 14 bước giảng viên yêu cầu |

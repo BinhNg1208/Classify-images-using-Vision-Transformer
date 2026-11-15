@@ -1,6 +1,6 @@
-# AGENT SPEC: ViT Image Classification trên Tiny ImageNet (Đề số 9 - Môn Học sâu)
+# Đặc tả kỹ thuật: Phân loại ảnh Tiny ImageNet bằng Vision Transformer (Đề số 9 - Môn Học sâu)
 
-> Tài liệu này là yêu cầu đầy đủ cho AI coding agent. Hãy đọc hết trước khi code. Làm theo thứ tự các giai đoạn. Không bỏ qua phần "Tiêu chí hoàn thành".
+> Yêu cầu kỹ thuật đầy đủ của nhóm, dùng chung cho thành viên và AI hỗ trợ. Đọc hết trước khi code, làm theo thứ tự các giai đoạn, không bỏ qua phần "Tiêu chí hoàn thành".
 
 ---
 
@@ -14,7 +14,7 @@
   1. So sánh ViT với CNN **có cùng số lượng tham số** (sai lệch cho phép <= 5%).
   2. **Trực quan hóa attention** của ViT.
 - **Lưu ý:** Đề KHÔNG liên quan đến deepfake (giáo viên đã xóa). Không làm phần deepfake.
-- **Nhóm:** 5 người. **Hạn nộp:** 20/11/2026, nhóm đặt mục tiêu nộp 19/11/2026. Không có vấn đáp.
+- **Nhóm:** 5 người. **Hạn nộp:** 25/11/2026 (giảng viên gia hạn từ 20/11), nhóm đặt mục tiêu nộp 24/11/2026. Không có vấn đáp.
 
 ### Mức ưu tiên
 
@@ -278,7 +278,7 @@ Cột FLOPs/MACs bắt buộc có: đo nếu làm được, ghi "chưa có" nế
 9. **Kết luận và hướng phát triển.**
 10. **Tài liệu tham khảo:** ViT (Dosovitskiy et al., 2020), Tiny ImageNet (Stanford CS231n), Attention Rollout (Abnar & Zuidema, 2020), Grad-CAM (Selvaraju et al., 2017), Mixup, CutMix.
 
-## 16. Kế hoạch thực hiện cho agent (thứ tự ưu tiên; phân công và lịch ở mục 19-20)
+## 16. Thứ tự thực hiện (thứ tự ưu tiên; phân công và lịch ở mục 19-20)
 
 1. Dựng khung thư mục, `requirements.txt`, `.gitignore`, `utils.py`.
 2. `prepare_data.py` + `data.py`, kiểm tra thống kê và ảnh mẫu.
@@ -323,27 +323,27 @@ Cột FLOPs/MACs bắt buộc có: đo nếu làm được, ghi "chưa có" nế
 | TV4 | Huấn luyện | `train.py`, `run_all.sh`, chạy thí nghiệm, quản lý checkpoint | 4 |
 | TV5 | Đánh giá và demo | `evaluate.py`, `error_analysis.py`, `compare.py`, `demo.py`, ghép báo cáo | 5, 7, 10 |
 
-Train chính chạy lần lượt trên máy GPU của một thành viên (nên là TV4); các thành viên khác dùng tài khoản Kaggle/Colab của mình nếu cần chạy thêm song song. Giai đoạn tài liệu làm thẳng trên `main`; từ TASK-001 trở đi, mỗi người làm trên nhánh riêng rồi mở PR gộp vào `main`, TV1 là người duyệt; PR của chính TV1 do TV4 duyệt.
+Train chính chạy lần lượt trên máy GPU của một thành viên (nên là TV4); các thành viên khác dùng tài khoản Kaggle/Colab của mình nếu cần chạy thêm song song. TV1 làm mọi đầu việc của mình thẳng trên `main`; TV2-TV5 làm trên nhánh riêng rồi mở PR gộp vào `main`, TV1 là người duyệt.
 
 ## 20. Lịch và quy tắc cắt việc
 
 | Ngày | Việc | Phụ trách chính |
 |---|---|---|
-| 7-8/11 | Nộp mẫu đăng ký, dựng repo, thống nhất giao diện (chữ ký `forward`, định dạng checkpoint, cột log CSV, cấu trúc JSON kết quả), tải dữ liệu | TV1, cả nhóm |
-| 9-10/11 | Xong ViT, CNN, `train.py`; chạy thông `--quick` và sinh checkpoint thử | TV2, TV3, TV4 |
-| 11/11 | Đo thời gian mỗi epoch, chốt số thí nghiệm, bắt đầu train thật | TV4 |
-| 11-14/11 | Train ViT và CNN; song song làm đánh giá, attention, demo bằng checkpoint thử | TV4, rồi TV2, TV3, TV5 |
-| 14-16/11 | Làm thêm nếu kịp; chốt checkpoint rồi đánh giá trên test một lần | TV4, TV5 |
-| 16/11 | **Dừng mọi thí nghiệm** | Cả nhóm |
-| 17-18/11 | Điền số liệu thật vào báo cáo, phân tích lỗi, hoàn thiện demo | TV5, cả nhóm |
-| 19/11 | Dò số liệu, chạy lại trên máy sạch, nộp bài | Cả nhóm |
-| 20/11 | Dự phòng | |
+| 15-16/11 | Chốt TV, nộp mẫu đăng ký, tải thử dữ liệu; dựng repo, `.gitignore`, tiện ích dùng chung (TASK-001) | TV1, TV4 |
+| 16-17/11 | Xong dữ liệu, ViT, CNN, `train.py`; chạy thông `--quick` và sinh checkpoint thử | TV1, TV2, TV3, TV4 |
+| 18/11 | Đo thời gian mỗi epoch và VRAM trên máy GPU, chốt số thí nghiệm, bắt đầu train thật | TV4 |
+| 18-20/11 | Train ViT và CNN (ViT trên máy GPU, CNN trên Kaggle nếu cần chạy song song); cùng lúc làm đánh giá, attention, demo bằng checkpoint thử | TV4, rồi TV2, TV3, TV5 |
+| 20-21/11 | Làm thêm nếu kịp; chốt checkpoint rồi đánh giá trên test một lần | TV4, TV5 |
+| 21/11 | **Dừng mọi thí nghiệm** | Cả nhóm |
+| 22-23/11 | Điền số liệu thật vào báo cáo, phân tích lỗi, hoàn thiện demo | TV5, cả nhóm |
+| 24/11 | Dò số liệu, chạy lại trên máy sạch, nộp bài | Cả nhóm |
+| 25/11 | Dự phòng | |
 
 Quy tắc cắt việc:
 
 - **Thứ tự cắt khi trễ:** CNN thứ hai có FLOPs xấp xỉ ViT, rồi ablation, rồi 3 seed, rồi Grad-CAM, cuối cùng mới đến đo FLOPs/MACs (căn cứ cho lập luận "cùng tham số không cùng chi phí"). Thí nghiệm SGD được cắt cùng lúc với CNN thứ hai; attention theo head và layer được cắt cùng lúc với Grad-CAM. Giữ nguyên bộ lõi: ViT, CNN, attention, demo, báo cáo.
-- **Chậm train:** 50 epoch là mức sàn, không giảm thêm. Nếu đến 13/11 ViT chưa train xong, cắt phần làm thêm và chuyển phần còn lại sang Kaggle/Colab, ghi rõ trong báo cáo.
-- **Kẹt dữ liệu hoặc GPU:** nếu đến 10/11 chưa chạy được Tiny ImageNet, chuyển sang CIFAR-100.
+- **Chậm train:** 50 epoch là mức sàn, không giảm thêm. Nếu đến 20/11 ViT chưa train xong, cắt phần làm thêm và chuyển phần còn lại sang Kaggle/Colab, ghi rõ trong báo cáo.
+- **Kẹt dữ liệu hoặc GPU:** nếu đến 17/11 chưa chạy được Tiny ImageNet, chuyển sang CIFAR-100.
 
 ## 21. Bản nháp mẫu đăng ký đề tài
 
@@ -356,4 +356,4 @@ Quy tắc cắt việc:
 7. **Phương pháp:** Baseline là ResNet nhỏ tự cài, khớp số tham số với ViT. Giải pháp là ViT (patch embedding + Transformer encoder) dùng AdamW, warmup + cosine, Mixup/CutMix, trực quan hóa bằng CLS attention và attention rollout.
 8. **Sản phẩm:** Mô hình đã huấn luyện, demo Gradio, ảnh mẫu, mã nguồn, README, báo cáo.
 9. **Đánh giá:** Chỉ số gồm Top-1, Top-5, per-class accuracy, top 20 cặp lớp nhầm nhiều nhất, số tham số, thời gian/epoch, tốc độ inference. Cách chia: train gốc 90/10 thành train/validation, val gốc làm test. Bộ tình huống: tối thiểu 12 ảnh test gồm cả dự đoán đúng và sai để xem attention, cùng 5-10 ảnh mẫu cho demo.
-10. **Kế hoạch và rủi ro:** Phân công và mốc theo mục 19-20, hoàn thành trước 20/11/2026. Phụ thuộc và cách xử lý: train phụ thuộc vào máy GPU của một thành viên, nên máy bận hoặc hỏng thì chuyển sang Kaggle/Colab; train bị ngắt thì lưu checkpoint thường xuyên, sao lưu ra ngoài máy và `--resume`; không kịp thì cắt phần mở rộng theo mục 20; không tải được dữ liệu thì chuyển sang CIFAR-100.
+10. **Kế hoạch và rủi ro:** Phân công và mốc theo mục 19-20, hoàn thành trước 25/11/2026. Phụ thuộc và cách xử lý: train phụ thuộc vào máy GPU của một thành viên, nên máy bận hoặc hỏng thì chuyển sang Kaggle/Colab; train bị ngắt thì lưu checkpoint thường xuyên, sao lưu ra ngoài máy và `--resume`; không kịp thì cắt phần mở rộng theo mục 20; không tải được dữ liệu thì chuyển sang CIFAR-100.

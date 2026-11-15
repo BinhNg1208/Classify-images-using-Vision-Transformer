@@ -1,6 +1,6 @@
 # Project description: ViT phân loại ảnh trên Tiny ImageNet
 
-Đồ án môn Học sâu, đề số 9, nhóm 5 người, hạn nộp 2026-11-20. File này tóm tắt Define, Design, Plan; chi tiết nằm trong `docs/`, mỗi thứ chỉ viết một lần ở đó.
+Đồ án môn Học sâu, đề số 9, nhóm 5 người, hạn nộp 2026-11-25 (đã gia hạn từ 2026-11-20). File này tóm tắt Define, Design, Plan; chi tiết nằm trong `docs/`, mỗi thứ chỉ viết một lần ở đó.
 
 ## Thứ tự đọc
 
@@ -17,7 +17,7 @@ Người mới đọc file này trước, rồi đọc `docs/` theo số:
 - **Người dùng:** Sinh viên, người nghiên cứu thị giác máy tính, giảng viên chấm bài.
 - **Phạm vi:** ViT, CNN cùng số tham số, attention, demo Gradio, phân tích lỗi. Ngoài phạm vi: ViT pretrained, deepfake, triển khai production.
 - **Thành công khi:** Có Top-1, Top-5 trên test cho cả hai mô hình; tham số chênh không quá 5%; có hình attention cho ít nhất 12 ảnh.
-- **Ràng buộc:** 13 ngày, một máy GPU 6GB VRAM, không dùng test để chọn cấu hình, không bịa số liệu.
+- **Ràng buộc:** khoảng 10 ngày tính từ 15/11, một máy GPU 6GB VRAM, không dùng test để chọn cấu hình, không bịa số liệu.
 
 Chi tiết, yêu cầu chức năng và giả định còn mở: [docs/01_define.md](docs/01_define.md).
 
@@ -37,10 +37,10 @@ Chi tiết, yêu cầu chức năng và giả định còn mở: [docs/01_define
 | Quyết định thiết kế | [docs/09_decisions.md](docs/09_decisions.md) | Cả nhóm |
 
 ## Plan
-- **Mốc:** duyệt tài liệu và nộp mẫu đăng ký → khung repo → `--quick` chạy thông → train thật → số cuối trên test → nộp bài 19/11 (20/11 dự phòng).
+- **Mốc:** duyệt tài liệu và nộp mẫu đăng ký → khung repo → `--quick` chạy thông → train thật → số cuối trên test → nộp bài 24/11 (25/11 dự phòng).
 - **Trạng thái:** theo dõi trên GitHub Issues và Projects. Hiện đang ở giai đoạn tài liệu, chưa có code.
-- **Đầu việc tiếp theo:** TASK-014, nộp mẫu đăng ký.
+- **Đầu việc tiếp theo:** TASK-001, khung repo và tiện ích dùng chung (TV1). Đã nộp mẫu đăng ký.
 
 Phân công, danh sách đầu việc, thứ tự cắt việc và checklist nộp bài: [docs/03_plan.md](docs/03_plan.md). Nhật ký: [docs/10_work_log.md](docs/10_work_log.md).
 
-Yêu cầu kỹ thuật đầy đủ và nháp mẫu đăng ký: [AGENT_SPEC_ViT_TinyImageNet.md](AGENT_SPEC_ViT_TinyImageNet.md).
+Yêu cầu kỹ thuật đầy đủ và nháp mẫu đăng ký: [SPEC_ViT.md](SPEC_ViT.md).

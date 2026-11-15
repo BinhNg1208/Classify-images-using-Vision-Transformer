@@ -12,7 +12,7 @@ File này giữ phân công, danh sách đầu việc, mốc và quy tắc cắt
 | TV4 | Huấn luyện | [06_training.md](06_training.md) | 4 |
 | TV5 | Đánh giá, demo, ghép báo cáo | [07_evaluation.md](07_evaluation.md), [08_demo.md](08_demo.md) | 5, 7, 10 |
 
-Tên thật sẽ thay cho TV1-TV5 khi nhóm chốt. TV4 nên là thành viên có máy GPU, vì phụ trách train và quản lý checkpoint.
+TV1 đã xác định (trưởng nhóm, chủ repo); tên thật của TV2-TV5 sẽ thay khi nhóm chốt. TV4 nên là thành viên có máy GPU, vì phụ trách train và quản lý checkpoint.
 
 ## Theo dõi trạng thái trên GitHub
 - Mỗi đầu việc là một **Issue**, tạo từ mẫu `.github/ISSUE_TEMPLATE/task.md`. Phần mô tả đầu việc (bước Describe) viết trong Issue.
@@ -21,7 +21,7 @@ Tên thật sẽ thay cho TV1-TV5 khi nhóm chốt. TV4 nên là thành viên c�
 - Chỉ chuyển sang Hoàn thành khi PR đã có bằng chứng kiểm tra và người duyệt đã xem. AI báo xong chưa đủ.
 - Lỗi phát sinh tạo Issue từ mẫu `.github/ISSUE_TEMPLATE/bug.md`.
 
-**Hiện trạng:** Issue và bảng Projects chưa tạo. Cho đến khi tạo: TASK-000 hoàn thành (nhóm duyệt `docs/` ngày 2026-11-15); các đầu việc khác chưa bắt đầu.
+**Hiện trạng:** Issue và bảng Projects chưa tạo. Cho đến khi tạo: TASK-000 hoàn thành (nhóm duyệt `docs/` ngày 2026-11-15); TASK-014 hoàn thành (đã nộp mẫu đăng ký, TV1 báo ngày 2026-11-15); các đầu việc khác chưa bắt đầu.
 
 ## Danh sách đầu việc
 
@@ -45,20 +45,20 @@ Tên thật sẽ thay cho TV1-TV5 khi nhóm chốt. TV4 nên là thành viên c�
 
 **Điều kiện bắt đầu code:** Chỉ bắt đầu TASK-001 và các đầu việc code khác sau khi nhóm duyệt `docs/`. Bản thử đầu của TASK-001 viết sai thứ tự nên đã bị xóa.
 
-**Đầu việc tiếp theo:** TASK-014. Mục tiêu: giảng viên nhận được mẫu đăng ký đủ 10 mục. Việc cần làm: điền quyền sử dụng dữ liệu, sửa nháp ở mục 21 spec nếu cần, rồi nộp đúng nơi giảng viên quy định. Phụ thuộc: nhóm chốt ai là TV nào.
+**Đầu việc tiếp theo:** TASK-001 (TV1), khung repo và tiện ích dùng chung; làm thẳng trên `main`, mô tả trong commit và nhật ký (DEC-014).
 
 ## Mốc và lịch
 
 | Mốc | Kết quả trình diễn được | Đầu việc | Hạn |
 |---|---|---|---|
-| M0 | `docs/` được nhóm duyệt, đã nộp mẫu đăng ký | 000, 014 | 8/11 |
-| M1 | Khung repo và hợp đồng sẵn sàng | 001 | 8/11 |
-| M2 | `--quick` chạy thông từ dữ liệu đến checkpoint | 002-006 | 10/11 |
-| M3 | Có checkpoint thật, đủ công cụ đánh giá và demo | 007-011 | 14/11 |
-| M4 | Có số cuối trên test, dừng mọi thí nghiệm | 012, 013 | 16/11 |
-| M5 | Báo cáo khớp số liệu, nộp bài | 012 | 19/11 |
+| M0 | `docs/` được nhóm duyệt, đã nộp mẫu đăng ký (xong 15/11) | 000, 014 | 15/11 |
+| M1 | Khung repo và hợp đồng sẵn sàng | 001 | 16/11 |
+| M2 | `--quick` chạy thông từ dữ liệu đến checkpoint | 002-006 | 17/11 |
+| M3 | Có checkpoint thật, đủ công cụ đánh giá và demo | 007-011 | 20/11 |
+| M4 | Có số cuối trên test, dừng mọi thí nghiệm | 012, 013 | 21/11 |
+| M5 | Báo cáo khớp số liệu, nộp bài | 012 | 24/11 |
 
-20/11 để dự phòng. Quy tắc cắt việc khi trễ ở mục 20 của spec.
+Hạn nộp 25/11 (giảng viên gia hạn từ 20/11); 25/11 để dự phòng. Lịch cũ nhắm 19/11 đã trễ từ M0. Quy tắc cắt việc khi trễ ở mục 20 của spec.
 
 ## Thứ tự cắt việc khi trễ
 CNN thứ hai có FLOPs xấp xỉ ViT, rồi ablation, rồi 3 seed, rồi Grad-CAM, cuối cùng mới đến đo FLOPs/MACs (TV3 phụ trách). Thí nghiệm SGD được cắt cùng lúc với CNN thứ hai; attention theo head và layer được cắt cùng lúc với Grad-CAM. Giữ nguyên bộ lõi: ViT, CNN, attention, demo, báo cáo. Không giảm dưới 50 epoch (DEC-008).

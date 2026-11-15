@@ -30,7 +30,7 @@ Với đầu việc nhỏ, một dòng bằng chứng trong PR là đủ. Ưu ti
 ## Quy tắc bắt buộc
 
 - Mỗi lần chỉ làm một đầu việc trong `docs/03_plan.md`, không tự mở rộng phạm vi.
-- Trước khi làm, mô tả đầu việc trong Issue.
+- Trước khi làm, mô tả đầu việc trong Issue. Đầu việc của TV1 không cần Issue: mô tả và bằng chứng ghi trong commit message và `docs/10_work_log.md`.
 - Muốn đổi hợp đồng dùng chung (ghi trong file `docs/` của bên tạo ra nó) thì sửa tài liệu và báo cả nhóm trước.
 - Không dùng tập test để chọn siêu tham số hay checkpoint.
 - Không bịa số liệu. Số trong báo cáo phải lấy từ file kết quả; chưa có thì ghi "chưa có".
@@ -39,8 +39,8 @@ Với đầu việc nhỏ, một dòng bằng chứng trong PR là đủ. Ưu ti
 
 ## Git
 
-- Giai đoạn tài liệu: làm thẳng trên `main`.
-- Từ TASK-001 trở đi, khi 5 người code song song: mỗi người làm trên nhánh riêng rồi mở PR gộp vào `main`, TV1 là người duyệt; PR của chính TV1 do TV4 duyệt.
+- TV1 (trưởng nhóm) làm mọi đầu việc của mình thẳng trên `main`, gồm tài liệu và TASK-001, 002, 003.
+- TV2-TV5 làm trên nhánh riêng rồi mở PR gộp vào `main`, TV1 là người duyệt. Trước khi mở PR, cập nhật nhánh theo `main` mới nhất.
 - Không dùng `git push --force` lên nhánh chung.
 - Commit message mô tả kết quả cụ thể, không thêm dòng `Co-Authored-By`.
 - AI chỉ commit hoặc push khi được yêu cầu.
