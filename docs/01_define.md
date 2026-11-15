@@ -1,4 +1,4 @@
-# Define
+# Define: bài toán và phạm vi
 
 **Nguồn đã xác nhận:** đề số 9 và mẫu đăng ký của giảng viên (ảnh chụp sheet môn học), hạn nộp do nhóm cung cấp. Nội dung còn lại là đề xuất của nhóm, xem bảng giả định cuối file.
 
@@ -22,7 +22,7 @@
 
 ## When — Khi nào?
 - **Tình huống/kích hoạt:** Người dùng chạy lệnh train, đánh giá hoặc mở demo khi cần kết quả; giảng viên chạy lại theo README khi chấm.
-- **Thời hạn và mốc:** Hạn nộp 2026-11-20, nhóm đặt mục tiêu nộp 2026-11-19. Các mốc ở [04_BREAKDOWN.md](04_BREAKDOWN.md).
+- **Thời hạn và mốc:** Hạn nộp 2026-11-20, nhóm đặt mục tiêu nộp 2026-11-19. Các mốc ở [03_plan.md](03_plan.md).
 
 ## Where — Ở đâu?
 - **Nơi dùng, thiết bị, môi trường:** Phát triển trên máy cá nhân (máy của TV viết tài liệu chỉ có CPU); train trên máy có GPU 6GB VRAM của một thành viên khác trong nhóm, máy rảnh trong thời gian train; Kaggle hoặc Colab là phương án dự phòng.
@@ -44,8 +44,8 @@
 ## How — Hướng thực hiện
 - **Cách giải quyết tổng quát:** Chia train gốc 90/10 thành train và validation, dùng val gốc làm test. Train hai mô hình với cùng dữ liệu và số epoch, chọn checkpoint trên validation, đo trên test một lần.
 - **AI hỗ trợ:** Claude Code hỗ trợ phân tích đề, soạn tài liệu và viết code; ghi nhận chi tiết trong [AI_Usage.md](../AI_Usage.md).
-- **Người chịu trách nhiệm quyết định và kiểm tra:** Từng thành viên với phần của mình, TV1 duyệt cuối (phân công ở [04_BREAKDOWN.md](04_BREAKDOWN.md)).
-- **Cách kiểm chứng dự kiến:** Test tự động, chạy thử `--quick`, đối chiếu số trong báo cáo với file kết quả; ghi vào [06_VERIFICATION.md](06_VERIFICATION.md).
+- **Người chịu trách nhiệm quyết định và kiểm tra:** Từng thành viên với phần của mình, TV1 duyệt cuối (phân công ở [03_plan.md](03_plan.md)).
+- **Cách kiểm chứng dự kiến:** Test tự động, chạy thử `--quick`, đối chiếu số trong báo cáo với file kết quả. Bằng chứng ghi trong PR của từng đầu việc.
 
 ## Input và output
 
@@ -56,6 +56,42 @@
 | Trực quan hóa | Checkpoint ViT, ảnh test | Hình CLS attention và attention rollout |
 | Demo | Một ảnh tải lên | Top-5 của ViT và CNN, ảnh attention rollout |
 
+## Yêu cầu chức năng
+
+Chi tiết từng yêu cầu và tiêu chí nghiệm thu (AC) nằm ở file thành phần. Các ngưỡng số lấy từ [AGENT_SPEC_ViT_TinyImageNet.md](../AGENT_SPEC_ViT_TinyImageNet.md).
+
+| Mã | Yêu cầu | AC | File |
+|---|---|---|---|
+| FR-001 | Chuẩn bị dữ liệu | AC-001, 002, 003 | [04_data.md](04_data.md) |
+| FR-002 | ViT tự cài | AC-004, 005 | [05_model.md](05_model.md) |
+| FR-003 | CNN cùng số tham số | AC-006 | [05_model.md](05_model.md) |
+| FR-004 | Huấn luyện | AC-007, 008 | [06_training.md](06_training.md) |
+| FR-005 | Đánh giá và phân tích lỗi | AC-009 | [07_evaluation.md](07_evaluation.md) |
+| FR-006 | Trực quan hóa attention | AC-010 | [07_evaluation.md](07_evaluation.md) |
+| FR-007 | So sánh | AC-011 | [07_evaluation.md](07_evaluation.md) |
+| FR-008 | Demo | AC-012 | [08_demo.md](08_demo.md) |
+| FR-009 | Tài liệu và báo cáo | AC-014 | Mục dưới |
+| | Config dùng chung | AC-013 | [02_architecture.md](02_architecture.md) |
+
+### FR-009: Tài liệu và báo cáo
+- **Người sử dụng:** Giảng viên, cả nhóm.
+- **Mục đích:** Đáp ứng yêu cầu báo cáo và quy trình `workflow/`.
+- **Luồng bình thường:** Cập nhật `docs/`, `README.md`, `AI_Usage.md`, `report/report.md`.
+- **Quy tắc:** Báo cáo gồm vấn đề và phạm vi, dữ liệu mẫu và mô tả, mã nguồn, hướng dẫn cài đặt/chạy, demo, kết quả so với baseline, phân tích lỗi và giới hạn.
+- **Lỗi và biên:** Chưa có số thì ghi "chưa có"; không ghi lệnh chưa chạy thành công như đã chạy.
+
+| Mã | Điều kiện ban đầu | Thao tác | Kết quả mong đợi |
+|---|---|---|---|
+| AC-014 | Có bản báo cáo cuối | Đối chiếu từng số với file kết quả | Tất cả khớp, đủ 7 mục đề yêu cầu |
+
+## Yêu cầu chất lượng
+- **Phân quyền, bảo vệ dữ liệu:** Không commit `kaggle.json`, dữ liệu hoặc checkpoint. Nạp checkpoint với `weights_only=True`.
+- **Hiệu năng:** Máy train có 6GB VRAM. Mặc định batch 64, lr 2,5e-4, ViT và CNN cùng batch. Đo VRAM đỉnh bằng `--quick` trước khi train thật. Chưa đặt ngưỡng tốc độ; đo và báo cáo thời gian mỗi epoch và số ảnh/giây.
+- **Độ tin cậy kết quả:** Tập test 10.000 ảnh cho sai số khoảng ±0,5 điểm phần trăm, và chỉ có 1 seed. Chênh lệch giữa ViT và CNN dưới khoảng 1–1,5 điểm không đủ để kết luận mô hình nào tốt hơn. Nếu chạy 3 seed thì cập nhật câu này.
+- **Khả năng tái lập:** Seed cố định, siêu tham số nằm trong YAML, không hardcode đường dẫn.
+- **Khả năng bảo trì:** Type hint, docstring ngắn. Từ TASK-001 trở đi, thay đổi đi qua nhánh riêng và PR có người review (TV1 duyệt; PR của chính TV1 do TV4 duyệt); giai đoạn tài liệu làm thẳng trên `main`.
+- **Thiết bị và trình duyệt hỗ trợ:** Python 3.10+; demo chạy trên trình duyệt bằng CPU.
+
 ## Câu hỏi và giả định chưa chốt
 
 | Nội dung | Tác động nếu sai | Ai xác nhận | Trạng thái |
@@ -65,6 +101,7 @@
 | Quyền sử dụng Tiny ImageNet cho mục đích học tập | Phải điền lại mẫu hoặc đổi dữ liệu | TV1 | Chưa xác nhận |
 | Nơi nộp mẫu đăng ký, có cần duyệt không | Ảnh hưởng lịch | TV1 | Chưa xác nhận |
 | Giảng viên có quy định khác ngoài phần đã thấy trên sheet | Thiếu sản phẩm phải nộp | TV1 | Chưa xác nhận |
+| Bằng chứng các bước Describe, Review, Test, Commit để trên GitHub Issue/PR thay vì file trong `docs/` | Phải chép lại vào file | TV1 hỏi giảng viên | Chưa xác nhận |
 | Tải được Tiny ImageNet từ Kaggle | Chuyển sang CIFAR-100 | TV4 | Chưa thử |
 | Thành viên có GPU là ai | Chưa gán được TV4 | Cả nhóm | Chưa xác nhận |
 | Batch 64 có vừa 6GB VRAM với cả hai mô hình (đặc biệt CNN) | Dùng gradient accumulation hoặc giảm batch còn 32 với cả hai mô hình | TV4 | Chưa đo |

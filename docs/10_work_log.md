@@ -12,7 +12,7 @@ Ghi ngắn sau mỗi buổi hoặc mốc đáng kể.
   - AI đã viết thử TASK-001 trước khi `docs/` hoàn thành, sai thứ tự quy trình. Nhóm quyết định xóa và làm lại sau khi `docs/` được duyệt.
 - **Bằng chứng kiểm tra:** Tài liệu chưa được nhóm đọc. Repo chưa có code nên chưa có kết quả chạy.
 - **Điều tôi giải thích được về code:** Chưa có code.
-- **Điều chưa hiểu / chưa xác minh:** Các giả định trong `01_DEFINE.md`.
+- **Điều chưa hiểu / chưa xác minh:** Các giả định trong `../01-define/DEFINE.md`.
 - **Bước tiếp theo:** Nhóm đọc và duyệt `docs/`, chốt TV, nộp mẫu đăng ký, rồi mới bắt đầu TASK-001.
 
 ## 2026-11-07 (chỉnh sửa theo quyết định nhóm)
@@ -27,6 +27,30 @@ Ghi ngắn sau mỗi buổi hoặc mốc đáng kể.
 - **Điều tôi giải thích được về code:** Chưa có code.
 - **Điều chưa hiểu / chưa xác minh:** FLOPs/MACs, thời gian train, VRAM, mức Top-1 dự đoán; nội dung tài liệu chưa được nhóm duyệt.
 - **Bước tiếp theo:** Nhóm đọc và duyệt `docs/`, chốt TV, nộp mẫu đăng ký, rồi mới bắt đầu TASK-001.
+
+## 2026-11-14
+
+- **Đầu việc:** TASK-000 (tài liệu).
+- **Kết quả / thay đổi chính:**
+  - Nhóm xóa `.agents/docs/` (bộ mẫu cũ) và đổi tên `.agents/` thành `workflow/`.
+  - Thử chia `docs/` theo 14 bước của `workflow/` nhưng nhiều file rỗng; nhóm chọn chia theo thành phần (DEC-013).
+  - `docs/` mới: `01_define.md`, `02_architecture.md`, `09_decisions.md`, `03_plan.md`, `04_data.md`, `05_model.md`, `06_training.md`, `07_evaluation.md`, `08_demo.md`, `10_work_log.md`. Nội dung cũ được chuyển sang, không thêm yêu cầu mới. FR và AC chuyển về file thành phần; hợp đồng ghi ở file của bên tạo ra nó.
+  - `Project_description.md` thành bản tóm tắt Define, Design, Plan.
+  - Trạng thái đầu việc chuyển lên GitHub Issues và Projects (chưa tạo). Thêm mẫu PR, mẫu Issue "Đầu việc" và "Lỗi" trong `.github/`.
+  - Sửa `AGENTS.md`, `README.md` theo cấu trúc mới.
+- **Bằng chứng kiểm tra:** Script kiểm tra link tương đối và đối chiếu mã FR, AC, DEC, TASK giữa bản cũ và bản mới.
+- **Điều tôi giải thích được về code:** Chưa có code.
+- **Điều chưa hiểu / chưa xác minh:** Nội dung tài liệu chưa được nhóm duyệt; giảng viên chưa xác nhận cách nộp bằng chứng trên Issue/PR.
+- **Bước tiếp theo:** Tạo Issue và bảng Projects; hỏi giảng viên về cách nộp bằng chứng; nhóm duyệt `docs/`, chốt TV, nộp mẫu đăng ký.
+
+## 2026-11-15
+
+- **Đầu việc:** TASK-000 (tài liệu).
+- **Kết quả / thay đổi chính:** Đánh số file `docs/` theo thứ tự đọc. Nhóm duyệt `docs/`; TASK-000 hoàn thành. Từ đây được bắt đầu code.
+- **Bằng chứng kiểm tra:** Nhóm xác nhận duyệt (người dùng báo lại). Script kiểm tra link: 0 link hỏng.
+- **Điều tôi giải thích được về code:** Chưa có code.
+- **Điều chưa hiểu / chưa xác minh:** Giảng viên chưa xác nhận cách nộp bằng chứng trên Issue/PR. Các mốc M0 đến M3 trong `03_plan.md` đã quá hạn, cần lập lại lịch.
+- **Bước tiếp theo:** Lập lại lịch, chốt TV, nộp mẫu đăng ký, tạo Issue, bắt đầu TASK-001.
 
 ## Mẫu buổi làm
 - Ngày: [YYYY-MM-DD]

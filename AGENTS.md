@@ -4,27 +4,38 @@
 
 ## Đọc trước khi làm
 
-1. [docs/04_BREAKDOWN.md](docs/04_BREAKDOWN.md): đầu việc và trạng thái hiện tại.
-2. [docs/07_WORK_LOG.md](docs/07_WORK_LOG.md): bản ghi mới nhất.
-3. Phần liên quan trong [docs/02_REQUIREMENTS.md](docs/02_REQUIREMENTS.md) và [docs/03_DESIGN.md](docs/03_DESIGN.md).
-4. Hướng dẫn của bước đang làm trong [.agents/](.agents/).
+1. Issue của đầu việc trên GitHub, và [docs/03_plan.md](docs/03_plan.md) để biết phân công, phụ thuộc.
+2. [docs/10_work_log.md](docs/10_work_log.md): bản ghi mới nhất.
+3. File `docs/` của thành phần đang làm (danh sách trong [Project_description.md](Project_description.md)) và [docs/02_architecture.md](docs/02_architecture.md).
+4. Hướng dẫn của bước đang làm trong [workflow/](workflow/).
 
 ## Quy trình
 
-Đi theo thứ tự trong `.agents/`: Define, Design, Plan, rồi với từng đầu việc là Describe, Generate, Review, Run, Test, Debug và Refactor khi cần, Commit, Explain, Documentation, Definition of Done.
+Đi theo thứ tự trong `workflow/`: Define, Design, Plan, rồi với từng đầu việc là Describe, Generate, Review, Run, Test, Debug và Refactor khi cần, Commit, Explain, Documentation, Definition of Done.
 
-**Chưa được viết code khi nhóm chưa duyệt `docs/`.** Hiện `docs/` chưa được duyệt.
+| Bước | Ghi ở đâu |
+|---|---|
+| Define, Design, Plan | `Project_description.md` (tóm tắt) và `docs/` |
+| Describe | Issue tạo từ mẫu "Đầu việc" |
+| Generate, Review, Run, Test, Explain | PR theo `.github/pull_request_template.md` |
+| Debug | Issue tạo từ mẫu "Lỗi" |
+| Commit | Commit và PR được duyệt |
+| Documentation | File `docs/` của thành phần, `README.md`, `AI_Usage.md`, `docs/10_work_log.md` |
+| Definition of Done | Mục "Nộp bài" trong `docs/03_plan.md` |
 
-Với đầu việc nhỏ, một dòng bằng chứng trong `docs/06_VERIFICATION.md` là đủ; không cần điền đủ mẫu dài. Ưu tiên thời gian cho train và báo cáo.
+Nhóm đã duyệt `docs/` ngày 2026-11-15, được bắt đầu viết code theo `docs/03_plan.md`.
+
+Với đầu việc nhỏ, một dòng bằng chứng trong PR là đủ. Ưu tiên thời gian cho train và báo cáo.
 
 ## Quy tắc bắt buộc
 
-- Mỗi lần chỉ làm một đầu việc trong `docs/04_BREAKDOWN.md`, không tự mở rộng phạm vi.
-- Muốn đổi hợp đồng dùng chung trong `docs/03_DESIGN.md` thì sửa tài liệu và báo cả nhóm trước.
+- Mỗi lần chỉ làm một đầu việc trong `docs/03_plan.md`, không tự mở rộng phạm vi.
+- Trước khi làm, mô tả đầu việc trong Issue.
+- Muốn đổi hợp đồng dùng chung (ghi trong file `docs/` của bên tạo ra nó) thì sửa tài liệu và báo cả nhóm trước.
 - Không dùng tập test để chọn siêu tham số hay checkpoint.
 - Không bịa số liệu. Số trong báo cáo phải lấy từ file kết quả; chưa có thì ghi "chưa có".
 - Không commit dữ liệu, checkpoint, `kaggle.json` hay bất kỳ bí mật nào.
-- AI báo xong chưa đủ để đánh dấu Hoàn thành: phải có bằng chứng trong `docs/06_VERIFICATION.md` và người phụ trách đã xem.
+- AI báo xong chưa đủ để đánh dấu Hoàn thành: phải có bằng chứng trong PR và người duyệt đã xem.
 
 ## Git
 
@@ -36,6 +47,6 @@ Với đầu việc nhỏ, một dòng bằng chứng trong `docs/06_VERIFICATIO
 
 ## Sau mỗi buổi
 
-- Cập nhật trạng thái thật trong `docs/04_BREAKDOWN.md`.
-- Thêm bản ghi vào `docs/07_WORK_LOG.md`.
+- Cập nhật trạng thái Issue trên GitHub Projects.
+- Thêm bản ghi vào `docs/10_work_log.md`.
 - Ghi công cụ AI đã dùng vào `AI_Usage.md`.
