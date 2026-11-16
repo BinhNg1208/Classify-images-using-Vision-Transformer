@@ -2,7 +2,7 @@
 
 Đồ án môn Học sâu, đề số 9. Nhóm tự cài ViT, so sánh với một CNN có cùng số tham số và trực quan hóa attention.
 
-> **Trạng thái:** nhóm đã duyệt `docs/` (2026-11-15), chuẩn bị viết code. Repo chưa có code, dữ liệu hay kết quả.
+> **Trạng thái:** đã có khung repo và tiện ích dùng chung (TASK-001); chưa có dữ liệu, mô hình hay kết quả.
 
 ## Bài toán
 

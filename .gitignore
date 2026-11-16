@@ -1,0 +1,17 @@
+# Dữ liệu, checkpoint và bí mật: không bao giờ commit
+data/
+outputs/checkpoints/
+*.pt
+*.pth
+kaggle.json
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# Notebook, editor
+.ipynb_checkpoints/
+.vscode/

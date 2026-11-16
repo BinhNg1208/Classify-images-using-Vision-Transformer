@@ -1,0 +1,41 @@
+# ViT-small, mô hình chính. Phần data và train phải giống hệt cnn_baseline.yaml
+# (test_vit_and_cnn_share_data_and_train_settings kiểm tra điều này).
+run_name: vit_small
+seed: 42
+
+data:
+  name: tiny_imagenet
+  root: data/tiny-imagenet-200
+  img_size: 64
+  num_classes: 200
+  batch_size: 64
+  num_workers: 4
+  val_ratio: 0.1
+  mean: [0.485, 0.456, 0.406]   # ImageNet, DEC-011
+  std: [0.229, 0.224, 0.225]
+  randaugment: true             # DEC-012
+  random_erasing: 0.0
+
+model:
+  name: vit
+  patch_size: 8
+  embed_dim: 256
+  depth: 8
+  num_heads: 8
+  mlp_ratio: 4
+  dropout: 0.0
+  drop_path_rate: 0.1
+
+train:
+  epochs: 50                    # mức sàn, DEC-008
+  optimizer: adamw
+  lr: 2.5e-4                    # 1e-3 ở batch 256, scale tuyến tính, DEC-003
+  weight_decay: 0.05
+  warmup_epochs: 5
+  min_lr: 1.0e-5
+  label_smoothing: 0.1
+  grad_clip: 1.0
+  amp: true
+  mixup_alpha: 0.8
+  cutmix_alpha: 1.0
+  mix_prob: 0.5

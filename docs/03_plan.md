@@ -21,7 +21,7 @@ TV1 đã xác định (trưởng nhóm, chủ repo); tên thật của TV2-TV5 s
 - Chỉ chuyển sang Hoàn thành khi PR đã có bằng chứng kiểm tra và người duyệt đã xem. AI báo xong chưa đủ.
 - Lỗi phát sinh tạo Issue từ mẫu `.github/ISSUE_TEMPLATE/bug.md`.
 
-**Hiện trạng:** Issue và bảng Projects chưa tạo. Cho đến khi tạo: TASK-000 hoàn thành (nhóm duyệt `docs/` ngày 2026-11-15); TASK-014 hoàn thành (đã nộp mẫu đăng ký, TV1 báo ngày 2026-11-15); các đầu việc khác chưa bắt đầu.
+**Hiện trạng:** Issue và bảng Projects chưa tạo. Cho đến khi tạo: TASK-000 hoàn thành (nhóm duyệt `docs/` ngày 2026-11-15); TASK-014 hoàn thành (đã nộp mẫu đăng ký, TV1 báo ngày 2026-11-15); TASK-001 hoàn thành (12 test pass, TV1 đọc code ngày 2026-11-16); các đầu việc khác chưa bắt đầu.
 
 ## Danh sách đầu việc
 
@@ -45,7 +45,7 @@ TV1 đã xác định (trưởng nhóm, chủ repo); tên thật của TV2-TV5 s
 
 **Điều kiện bắt đầu code:** Chỉ bắt đầu TASK-001 và các đầu việc code khác sau khi nhóm duyệt `docs/`. Bản thử đầu của TASK-001 viết sai thứ tự nên đã bị xóa.
 
-**Đầu việc tiếp theo:** TASK-001 (TV1), khung repo và tiện ích dùng chung; làm thẳng trên `main`, mô tả trong commit và nhật ký (DEC-014).
+**Đầu việc tiếp theo:** TASK-002 (TV1, chuẩn bị dữ liệu) và TASK-004 (TV2, ViT) làm song song; TV1 làm thẳng trên `main` (DEC-014).
 
 ## Mốc và lịch
 

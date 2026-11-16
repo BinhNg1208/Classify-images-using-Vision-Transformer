@@ -3,7 +3,7 @@
 Chi tiết từng thành phần nằm ở file riêng; file này chỉ giữ phần dùng chung. Các quyết định thiết kế ở [09_decisions.md](09_decisions.md).
 
 ## Hiện trạng
-- Repo mới, chưa có code, dữ liệu hay mô hình.
+- Đã có khung repo và `src/utils.py` (TASK-001); chưa có dữ liệu, mô hình hay vòng lặp train.
 - Tái sử dụng `torchvision`: transform, RandAugment, CIFAR-100.
 - Cấu trúc thư mục code lấy từ mục 4 của [spec](../SPEC_ViT.md), với gốc repo là gốc project (DEC-004).
 
@@ -55,7 +55,7 @@ Hợp đồng riêng của từng thành phần nằm ở file của bên tạo 
 
 Muốn đổi hợp đồng nào thì sửa tài liệu và báo cả nhóm trước.
 
-**Config YAML**, các khóa bắt buộc:
+**Config YAML** (`configs/vit_small.yaml`, `configs/cnn_baseline.yaml`), các khóa bắt buộc do `load_config` trong `src/utils.py` kiểm tra:
 - `run_name`, `seed`
 - `data`: `name, root, img_size, num_classes, batch_size, num_workers, val_ratio, mean, std`
 - `model`: `name`
@@ -74,16 +74,16 @@ Muốn đổi hợp đồng nào thì sửa tài liệu và báo cả nhóm trư
 | Dự phòng | Kaggle hoặc Colab, chưa kiểm tra |
 | Phiên bản tối thiểu | Python 3.10+ |
 
-**Lệnh chung** (chưa có code, sẽ cập nhật sau khi chạy thật):
+**Lệnh chung:**
 
-| Mục đích | Lệnh |
-|---|---|
-| Cài đặt | `pip install -r requirements.txt` |
-| Test | `pytest` |
+| Mục đích | Lệnh | Trạng thái |
+|---|---|---|
+| Cài đặt | `pip install -r requirements.txt` (máy GPU: cài torch bản CUDA trước) | Chưa thử trên máy sạch |
+| Test | `python -m pytest` ở gốc repo | Đã chạy 2026-11-15 trên máy TV1 (CPU): 12 passed |
 
 Lệnh của từng thành phần nằm trong file thành phần đó.
 
 ## Dữ liệu và bí mật
 - Không commit `kaggle.json`, dữ liệu hay checkpoint. Checkpoint lưu trên Google Drive hoặc Kaggle Dataset, link ghi trong README.
-- TASK-001 phải tạo `.gitignore` chặn `kaggle.json`, dữ liệu và checkpoint trước khi có ai tải dữ liệu vào repo. Không được chặn `outputs/logs`, `src/`, `workflow/`. Kiểm tra từng đường dẫn bằng `git check-ignore`, mỗi lần một đường dẫn.
+- `.gitignore` chặn `data/`, `outputs/checkpoints/`, `*.pt`, `*.pth`, `kaggle.json`; không chặn `outputs/logs`, `outputs/results`, `src/`, `configs/`, `workflow/`. Đã kiểm tra từng đường dẫn bằng `git check-ignore` ngày 2026-11-15.
 - Dự án không có phân quyền người dùng.

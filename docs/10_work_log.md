@@ -55,6 +55,22 @@ Ghi ngắn sau mỗi buổi hoặc mốc đáng kể.
 - **Cập nhật:** Đổi tên `AGENT_SPEC_ViT_TinyImageNet.md` thành `SPEC_ViT.md`, sửa tiêu đề cho tự nhiên hơn. TV1 làm mọi đầu việc của mình thẳng trên `main` (DEC-014); không tạo Issue cho đầu việc của TV1.
 - **Bước tiếp theo:** Chốt TV2-TV5, TV4 tải thử dữ liệu, tạo Issue, bắt đầu TASK-001.
 
+## 2026-11-15 (TASK-001)
+
+- **Đầu việc:** TASK-001, khung repo và tiện ích dùng chung (TV1, thẳng trên `main`).
+- **Kết quả / thay đổi chính:**
+  - `src/utils.py`: `load_config` (báo tất cả khóa thiếu trong một lần, AC-013), `make_run_name`, `set_seed`, `count_params`, `atomic_save` (ghi file tạm rồi `os.replace`, lỗi thì xóa file tạm và giữ file cũ, DEC-005).
+  - `configs/vit_small.yaml`, `configs/cnn_baseline.yaml` theo spec; phần `data`, `train`, `seed` giống hệt nhau và có test giữ điều này.
+  - `.gitignore`, `requirements.txt`, `pytest.ini`, `tests/test_utils.py`.
+- **Bằng chứng kiểm tra:**
+  - Viết test trước: `python -m pytest -q` → 12 failed (hàm chưa viết). Sau khi viết code: 12 passed.
+  - Cố ý làm hỏng code: bỏ bước xóa file tạm → test `keeps_old_file` fail; bỏ khóa `data.mean` khỏi danh sách bắt buộc → test `missing_key` fail. Khôi phục: 12 passed.
+  - `git check-ignore` từng đường dẫn: chặn `data/`, checkpoint, `*.pt`, `kaggle.json`, `__pycache__`; không chặn `outputs/logs`, `outputs/results`, `src/`, `configs/`, `workflow/`.
+  - Môi trường: Windows 10, Python 3.13.9, torch 2.9.1+cpu, pyyaml 6.0.3, pytest 8.4.2.
+- **Điều tôi giải thích được về code:** TV1 đã đọc `src/utils.py` ngày 2026-11-16 và đồng ý đưa lên `main`.
+- **Điều chưa hiểu / chưa xác minh:** `atomic_save` chưa thử khi mất điện thật; `os.replace` chỉ nguyên tử khi file tạm và file đích cùng ổ đĩa (đang đảm bảo vì tạo cùng thư mục). Chưa cài thử `requirements.txt` trên máy sạch và máy GPU.
+- **Bước tiếp theo:** TV1 làm TASK-002; TV2 bắt đầu TASK-004 trên nhánh riêng.
+
 ## Mẫu buổi làm
 - Ngày: [YYYY-MM-DD]
 - Đầu việc: [TASK-xxx — tên]

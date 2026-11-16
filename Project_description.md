@@ -38,7 +38,7 @@ Chi tiết, yêu cầu chức năng và giả định còn mở: [docs/01_define
 
 ## Plan
 - **Mốc:** duyệt tài liệu và nộp mẫu đăng ký → khung repo → `--quick` chạy thông → train thật → số cuối trên test → nộp bài 24/11 (25/11 dự phòng).
-- **Trạng thái:** theo dõi trên GitHub Issues và Projects. Hiện đang ở giai đoạn tài liệu, chưa có code.
+- **Trạng thái:** theo dõi trên GitHub Issues và Projects. Đã xong khung repo (TASK-001); đang làm dữ liệu và mô hình.
 - **Đầu việc tiếp theo:** TASK-001, khung repo và tiện ích dùng chung (TV1). Đã nộp mẫu đăng ký.
 
 Phân công, danh sách đầu việc, thứ tự cắt việc và checklist nộp bài: [docs/03_plan.md](docs/03_plan.md). Nhật ký: [docs/10_work_log.md](docs/10_work_log.md).
