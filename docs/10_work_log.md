@@ -108,6 +108,50 @@ Ghi ngắn sau mỗi buổi hoặc mốc đáng kể.
 - **Điều chưa hiểu / chưa xác minh:** TV2, TV3, TV4 chưa xác nhận đã đọc hợp đồng.
 - **Bước tiếp theo:** TV1 nhắn TV2 bắt đầu TASK-004 trên nhánh riêng.
 
+## 2026-11-17 (Codex đọc dự án)
+
+- **Đầu việc:** Đọc và nắm hiện trạng theo yêu cầu người dùng; chưa bắt đầu đầu việc code mới.
+- **Kết quả / thay đổi chính:** Đọc quy tắc repo, spec, tài liệu thành phần, kế hoạch, nhật ký, config, mã nguồn và test hiện có. Code đang có TASK-001 đến TASK-003; đầu việc tiếp theo theo kế hoạch là TASK-004 (ViT và `build_model(cfg)`).
+- **Bằng chứng kiểm tra:** `python -m pytest -q -W error` → 25 passed in 33.51s. Máy hiện tại không có thư mục `data/cache/tiny_imagenet_64/`; số lượng dữ liệu trong `outputs/results/dataset_stats.json` là kết quả đã lưu, chưa kiểm chứng lại trên dữ liệu thật trong buổi này.
+- **Điều chưa hiểu / chưa xác minh:** Chưa kiểm tra trạng thái GitHub Issues/Projects trực tiếp (`gh` chưa cài). `Project_description.md` còn ghi TASK-001 là bước tiếp theo; mục hiện trạng trong `docs/02_architecture.md` chưa cập nhật TASK-002, 003. Chưa sửa các nội dung này trong buổi đọc.
+- **Bước tiếp theo:** Khi được giao triển khai, thực hiện một đầu việc theo `docs/03_plan.md` và hợp đồng tương ứng.
+
+## 2026-11-17 (TASK-004, TV2)
+
+- **Đầu việc:** TASK-004, ViT tự cài và test. Người dùng xác nhận mình là TV2; làm trên nhánh riêng, không áp dụng ngoại lệ TV1 làm thẳng trên `main`.
+- **Chuẩn bị / Describe:** Đọc lần lượt file gốc trước rồi `docs/` và workflow. Giữ các ghi chú chưa commit của buổi đọc trước bằng stash, `git pull --ff-only origin main` → Already up to date (`b29de54`), tạo `tv2/task-004-vit` rồi khôi phục ghi chú. Tạo [Issue #1](https://github.com/QuocAn118/Classify-images-using-Vision-Transformer/issues/1) theo mẫu trước khi viết code.
+- **Kết quả / thay đổi chính:** `src/models/vit.py` có patch embedding, CLS/positional embedding học được, encoder Pre-LN, MLP GELU, DropPath tăng theo độ sâu, SDPA và nhánh attention tường minh trả weights trước dropout. `src/models/__init__.py` tạo ViT qua `build_model(cfg)`; chưa có CNN (TASK-005). Thêm `tests/test_models.py`, bằng chứng JSON, cập nhật `docs/05_model.md`, README và AI_Usage. Không đổi hợp đồng hay thêm dependency.
+- **Bằng chứng kiểm tra:**
+  - Viết test trước: `python -m pytest tests/test_models.py -q -W error` → lỗi collection do `src.models` chưa có. Sau khi triển khai: 23 passed.
+  - `python -m pytest -q -W error` → 48 passed (gồm 25 test cũ).
+  - Smoke test cấu hình mặc định bằng dữ liệu giả: `(2,3,64,64)` → `(2,200)`, 8 attention `(2,8,65,65)`, 6.436.296 tham số; sai khác logits tối đa 7,15e-7, tổng hàng attention sai tối đa 2,38e-7; backward cho gradient hữu hạn ở mọi tham số, một bước AdamW cập nhật head. Kết quả lưu [task004_vit_checks.json](../outputs/results/task004_vit_checks.json).
+  - Môi trường thực tế: Windows, Python 3.12.10, torch 2.15.0+cpu; không có CUDA. `git diff --check` không báo lỗi.
+- **Giải thích / Review:** Luồng patch → CLS + positional embedding → 8 encoder → LayerNorm → head ghi trong `docs/05_model.md`. Tự đối chiếu AC-004/005, config và factory; không đọc dữ liệu test thật, không lưu checkpoint. TV1 chưa review, không tự đánh dấu Hoàn thành.
+- **Điều chưa xác minh / giới hạn:** Chưa đo GPU, AMP hoặc VRAM; chưa train và chưa có accuracy. `--quick` thuộc TASK-006. GitHub xác thực bằng `BinhNg1208`, hiện chưa có quyền push vào repo gốc; token thiếu quyền Projects (`read:project`), nên chưa cập nhật bảng Projects. Trạng thái/bằng chứng sẽ ghi ở Issue; bản mô tả PR chuẩn bị tại `.git/codex/TASK-004_PR.md`. Chưa commit/push vì chưa được yêu cầu.
+- **Bước tiếp theo:** TV2 đọc và giải thích được code; commit/push khi được yêu cầu, mở PR gắn Issue #1 để TV1 review. Chỉ sau khi gộp TASK-004 mới chuyển TASK-005 theo kế hoạch.
+
+## 2026-11-17 (TASK-004, nhánh thanhbinh)
+
+- **Đầu việc:** Chốt thay đổi TASK-004 trên nhánh `thanhbinh` theo yêu cầu người dùng; từ đây các thay đổi của TV2 trong phiên này được commit trên nhánh này.
+- **Kết quả / thay đổi chính:** Tạo và chuyển sang `thanhbinh` bằng `git switch -c thanhbinh`, giữ toàn bộ thay đổi TASK-004 và ghi chú buổi đọc. Cập nhật tên nhánh hiện tại trong README, tài liệu mô hình và AI_Usage. Commit dự kiến: `TASK-004: implement ViT with attention outputs and 23 model tests`.
+- **Bằng chứng kiểm tra:** Code không đổi so với lần kiểm tra 48 test pass và smoke test trước đó; chỉ đổi ghi nhận nhánh/tài liệu. Kiểm tra diff và staged diff trước commit, đối chiếu ref `main` sau commit để bảo đảm không thay đổi.
+- **Giới hạn / bước tiếp theo:** Chưa push hoặc mở PR; TASK-004 vẫn chờ TV1 review. Quyền GitHub Projects và quyền push vào repo gốc còn thiếu như bản ghi trước.
+
+## 2026-11-17 (TASK-004, push nhánh thanhbinh và mở PR)
+
+- **Đầu việc:** Bàn giao TASK-004 để TV1 review theo yêu cầu tiếp tục của người dùng; chỉ commit/push trên `thanhbinh`, không merge vào `main`.
+- **Kết quả / thay đổi chính:** `git fetch origin main` xác nhận nhánh đã chứa main mới nhất (`b29de54`). Tài khoản `BinhNg1208` chưa có quyền push repo gốc, nên tạo fork `BinhNg1208/Classify-images-using-Vision-Transformer`, thêm remote `fork` và `git push --set-upstream fork thanhbinh:thanhbinh`. Mở [PR #2](https://github.com/QuocAn118/Classify-images-using-Vision-Transformer/pull/2), nguồn `BinhNg1208:thanhbinh`, đích `QuocAn118:main`, gắn `Closes #1`; PR đang mở và chưa merge. Cập nhật README, tài liệu mô hình và AI_Usage với link PR.
+- **Bằng chứng kiểm tra:** `git merge-base --is-ancestor origin/main HEAD` và `git diff origin/main...HEAD --check` đều đạt; audit file tracked không có dữ liệu, checkpoint hay `kaggle.json`. Code vẫn ở commit `73ac662`, đã có 48 test pass và bằng chứng smoke test từ buổi triển khai; buổi bàn giao chỉ đổi tài liệu nên không chạy lại test. Nhánh `thanhbinh` theo dõi `fork/thanhbinh`; local `main` giữ nguyên tại `b29de54`.
+- **Giới hạn:** Yêu cầu reviewer `QuocAn118` qua API chưa thành công (HTTP 404), nên chưa có reviewer được gán tự động. Token vẫn thiếu quyền GitHub Projects; chưa cập nhật được bảng. Không tự đóng Issue hoặc đánh dấu TASK-004 Hoàn thành; chưa chạy GPU/AMP/VRAM.
+- **Bước tiếp theo:** TV1 đọc PR và quyết định merge. TASK-008 chưa bắt đầu vì TASK-006 và checkpoint chưa có; không mở rộng sang đầu việc khác trong buổi bàn giao.
+
+## 2026-11-17 (TASK-004, phần báo cáo TV2)
+
+- **Đầu việc:** Bổ sung báo cáo theo yêu cầu người dùng, trong bước Documentation của TASK-004 trên `thanhbinh`; không triển khai đầu việc code mới.
+- **Describe / kết quả:** Bổ sung phạm vi báo cáo vào [Issue #1](https://github.com/QuocAn118/Classify-images-using-Vision-Transformer/issues/1) trước khi viết. Repo chưa có báo cáo, nên tạo `report/report.md` với khung 10 mục theo spec; viết phần ViT ở mục 3 (sơ đồ, config, patch/CLS/positional embedding, Pre-LN, hai nhánh attention, DropPath, head, khởi tạo và factory), kiểm chứng tại mục 4.1 và trạng thái/phương án attention ở mục 6. Các phần còn lại chờ thành viên phụ trách, chỉ số chưa đo và hình chưa sinh ghi "chưa có". Thêm link báo cáo trong README và ghi nhận AI.
+- **Nguồn và kiểm chứng:** Đối chiếu mô tả với `src/models/vit.py`, factory, YAML, `outputs/results/task004_vit_checks.json` và nhật ký test; không thêm số liệu huấn luyện. Kiểm tra nguồn tham khảo tại arXiv:2010.11929 và ACL Anthology:2020.acl-main.385. Kiểm tra UTF-8, link tương đối, cấu trúc mục, công thức và whitespace; chỉ sửa Markdown nên không chạy lại unit test. Bằng chứng 48 test pass vẫn thuộc buổi triển khai trước.
+- **Giới hạn / bước tiếp theo:** Báo cáo là bản nháp, chưa có kết quả huấn luyện hoặc hình attention; chưa đánh dấu TASK-008 hay báo cáo cuối hoàn thành. Cập nhật commit lên `fork/thanhbinh` để PR #2 nhận phần báo cáo, chờ TV1 review; không push hoặc merge vào main. Quyền GitHub Projects vẫn thiếu như buổi trước.
+
 ## Mẫu buổi làm
 - Ngày: [YYYY-MM-DD]
 - Đầu việc: [TASK-xxx — tên]
