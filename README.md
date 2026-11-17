@@ -2,7 +2,7 @@
 
 Đồ án môn Học sâu, đề số 9. Nhóm tự cài ViT, so sánh với một CNN có cùng số tham số và trực quan hóa attention.
 
-> **Trạng thái:** đã có khung repo (TASK-001), chuẩn bị dữ liệu (TASK-002) và DataLoader (TASK-003); chưa có mô hình hay kết quả.
+> **Trạng thái:** đã có khung repo (TASK-001), chuẩn bị dữ liệu (TASK-002) và DataLoader (TASK-003). ViT và test (TASK-004) đã triển khai trên nhánh `thanhbinh`, chờ TV1 review; chưa có CNN, vòng lặp train hay kết quả huấn luyện.
 
 ## Bài toán
 
@@ -32,6 +32,16 @@ python -m pytest
 
 - `prepare_data.py --download` tải Tiny ImageNet từ Stanford (248 MB) vào `data/`, chia train/validation/test và tạo cache khoảng 1,35 GB ở `data/cache/tiny_imagenet_64/`. Trên máy TV1 (CPU, Windows) mất 64 phút.
 - Lệnh train, đánh giá, demo sẽ thêm vào đây sau khi đã chạy thử thật.
+
+### Kiểm tra ViT (TASK-004)
+
+Không cần tải dữ liệu để chạy test mô hình:
+
+```bash
+python -m pytest tests/test_models.py -q -W error
+```
+
+Đã chạy trên CPU ngày 2026-11-17: 23 test mô hình pass; toàn bộ repo 48 test pass. ViT mặc định có **6.436.296 tham số**, forward ảnh `(2,3,64,64)` cho logits `(2,200)`; `return_attn=True` trả thêm 8 tensor attention `(2,8,65,65)`. Bằng chứng forward/backward bằng dữ liệu giả: [task004_vit_checks.json](outputs/results/task004_vit_checks.json). Cách tạo mô hình và giải thích luồng xử lý: [docs/05_model.md](docs/05_model.md).
 
 ## Tài liệu
 

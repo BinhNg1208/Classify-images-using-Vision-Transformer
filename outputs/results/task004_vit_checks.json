@@ -1,0 +1,38 @@
+{
+  "task": "TASK-004",
+  "date": "2026-11-17",
+  "config": "configs/vit_small.yaml",
+  "seed": 42,
+  "synthetic_input": true,
+  "device": "cpu",
+  "python": "3.12.10",
+  "torch": "2.15.0+cpu",
+  "cuda_available": false,
+  "params": 6436296,
+  "input_shape": [
+    2,
+    3,
+    64,
+    64
+  ],
+  "logits_shape": [
+    2,
+    200
+  ],
+  "attention_layers": 8,
+  "attention_shape_each_layer": [
+    2,
+    8,
+    65,
+    65
+  ],
+  "max_abs_logits_difference_eval": 7.152557373046875e-07,
+  "max_abs_attention_row_sum_error_eval": 2.384185791015625e-07,
+  "backward_all_parameter_gradients_finite": true,
+  "optimizer_updated_head": true,
+  "limitations": [
+    "Synthetic input only; no training accuracy measured.",
+    "CUDA and peak VRAM not verified.",
+    "src.train --quick belongs to TASK-006 and is not implemented."
+  ]
+}

@@ -1,6 +1,8 @@
 # Mô hình
 
-**Người giữ:** TV2 (ViT), TV3 (CNN, đo FLOPs/MACs). **Đầu việc:** TASK-004, TASK-005. **Code:** `src/models/__init__.py` (`build_model`), `src/models/vit.py`, `src/models/cnn.py` (chưa có).
+**Người giữ:** TV2 (ViT), TV3 (CNN, đo FLOPs/MACs). **Đầu việc:** TASK-004, TASK-005. **Code:** `src/models/__init__.py` (`build_model`), `src/models/vit.py`; `src/models/cnn.py` chưa có.
+
+**TASK-004:** đã triển khai và kiểm tra trên CPU ở nhánh `thanhbinh`, chờ PR và TV1 review; chưa đánh dấu Hoàn thành. Describe tại [Issue #1](https://github.com/QuocAn118/Classify-images-using-Vision-Transformer/issues/1).
 
 ## Thành phần làm gì
 Cung cấp ViT tự cài (có lấy được attention) và một ResNet nhỏ có số tham số chênh không quá 5% so với ViT, để so sánh công bằng.
@@ -9,7 +11,7 @@ Cung cấp ViT tự cài (có lấy được attention) và một ResNet nhỏ c
 
 | Mô hình | Cấu hình | Số tham số |
 |---|---|---|
-| ViT-small | Ảnh 64, patch 8, dim 256, depth 8, heads 8, MLP ratio 4, drop path 0,1, dropout 0 | 6.436.296 (tính tay, đã kiểm tra lại bằng phép tính, chưa xác minh bằng code) |
+| ViT-small | Ảnh 64, patch 8, dim 256, depth 8, heads 8, MLP ratio 4, drop path 0,1, dropout 0 | 6.436.296 (đã đếm bằng code ngày 2026-11-17, khớp tính tay; [bằng chứng](../outputs/results/task004_vit_checks.json)) |
 | ResNet nhỏ | BasicBlock, BatchNorm, stem 3x3 stride 1 nhưng tầng đầu tiên downsample sớm, hoặc stem stride 2 (tránh feature map 64x64 ở nhiều tầng, vì tốn VRAM và thời gian; DEC-007); cấu hình cuối do `match_param_count` chọn | Trong khoảng 5% so với ViT (chưa xác minh) |
 
 Cùng cỡ tham số nhưng chi phí tính toán có thể chênh nhiều. **Dự đoán, chưa đo bằng code:** ViT khoảng 0,43 GMACs (khoảng 0,86 GFLOPs), CNN khoảng 1–1,5 GMACs. Số của CNN tính cho stem cũ chưa downsample; thiết kế downsample sớm có thể thấp hơn, phải đo. Khi đo, ghi rõ đơn vị (MACs hay FLOPs) và dùng cùng một đơn vị cho cả hai mô hình.
@@ -29,6 +31,44 @@ logits, attns = vit(x, return_attn=True)  # chỉ ViT; attns: list[(B,heads,N+1,
 - Thứ tự gộp vào `main`: TASK-004 → TASK-005 → TASK-006 (TV1 chốt 2026-11-17).
 
 Bên dùng: [06_training.md](06_training.md), [07_evaluation.md](07_evaluation.md), [08_demo.md](08_demo.md). Muốn đổi thì sửa ở đây và báo cả nhóm.
+
+## Cài đặt ViT hiện có (TASK-004)
+
+`build_model(cfg)` hiện tạo được `model.name: vit`. Nhánh `resnet_small` sẽ do TV3 thêm ở TASK-005; trước đó gọi config CNN sẽ báo `ValueError` và liệt kê tên đang hỗ trợ. Hợp đồng và config đã chốt được giữ nguyên, không thêm dependency.
+
+Luồng một batch mặc định:
+1. `PatchEmbedding`: Conv2d kernel/stride 8 biến `(B,3,64,64)` thành `(B,64,256)`.
+2. Ghép CLS token học được thành 65 token, cộng positional embedding `(1,65,256)` rồi áp dropout.
+3. Qua 8 `TransformerEncoderBlock` Pre-LN: LayerNorm → multi-head attention → residual, rồi LayerNorm → MLP GELU → residual. DropPath bỏ nhánh theo từng ảnh khi train, xác suất tăng từ 0 đến 0,1 theo độ sâu; ở eval thì tắt.
+4. LayerNorm cuối → lấy CLS → Linear cho logits `(B,200)`, chưa softmax để dùng CrossEntropyLoss.
+
+Nhánh thường gọi `scaled_dot_product_attention` và không giữ danh sách attention. Nhánh `return_attn=True` tính softmax của `QKᵀ / sqrt(head_dim)` tường minh, trả weights **trước dropout** cho từng layer. Khi `eval()`, cả dropout và DropPath đều tắt; hai nhánh phải khớp logits trong ngưỡng AC-005. Lưới patch lấy từ config; ảnh input phải đúng kích thước RGB trong config. Cấu hình kích thước, số head, tỷ lệ MLP và xác suất không hợp lệ được báo bằng `ValueError`.
+
+Ví dụ dùng từ bên gọi:
+
+```python
+import torch
+from src.models import build_model
+from src.utils import load_config
+
+cfg = load_config("configs/vit_small.yaml")
+model = build_model(cfg).eval()
+with torch.no_grad():
+    logits, attns = model(torch.randn(2, 3, 64, 64), return_attn=True)
+```
+
+## Bằng chứng kiểm tra TASK-004
+
+Ngày 2026-11-17, Windows, Python 3.12.10, torch 2.15.0+cpu; không có CUDA. Các input mô hình đều là dữ liệu giả, không đọc tập test thật.
+
+| Kiểm tra | Lệnh / bằng chứng | Kết quả |
+|---|---|---|
+| AC-004, AC-005, số tham số, cấu hình lưới khác, lỗi cấu hình, dropout/DropPath, backward hai nhánh, nạp state dict với `weights_only=True` | `python -m pytest tests/test_models.py -q -W error` | 23 passed |
+| Hồi quy toàn repo | `python -m pytest -q -W error` | 48 passed |
+| Cấu hình ViT mặc định, forward và một bước AdamW trên CPU | [task004_vit_checks.json](../outputs/results/task004_vit_checks.json) | 6.436.296 tham số; logits `(2,200)`; 8 attention `(2,8,65,65)`; gradient mọi tham số hữu hạn; trọng số head thay đổi sau optimizer step |
+| Sai khác logits / sai số tổng hàng attention ở eval | Cùng file JSON | Tối đa khoảng 7,15e-7 / 2,38e-7, đều dưới 1e-4 |
+
+Chưa kiểm tra CUDA, AMP hay VRAM đỉnh. Chưa có kết quả huấn luyện hoặc đánh giá accuracy. `src.train --quick` chưa tồn tại và thuộc TASK-006; buổi này chỉ smoke test trực tiếp mô hình. CNN và tiêu chí AC-006 thuộc TASK-005.
 
 ## FR-002: ViT tự cài
 - **Người sử dụng:** TV4 (train), TV2 (attention), TV5 (demo).
