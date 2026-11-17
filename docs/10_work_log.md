@@ -145,6 +145,13 @@ Ghi ngắn sau mỗi buổi hoặc mốc đáng kể.
 - **Giới hạn:** Yêu cầu reviewer `QuocAn118` qua API chưa thành công (HTTP 404), nên chưa có reviewer được gán tự động. Token vẫn thiếu quyền GitHub Projects; chưa cập nhật được bảng. Không tự đóng Issue hoặc đánh dấu TASK-004 Hoàn thành; chưa chạy GPU/AMP/VRAM.
 - **Bước tiếp theo:** TV1 đọc PR và quyết định merge. TASK-008 chưa bắt đầu vì TASK-006 và checkpoint chưa có; không mở rộng sang đầu việc khác trong buổi bàn giao.
 
+## 2026-11-17 (TASK-004, phần báo cáo TV2)
+
+- **Đầu việc:** Bổ sung báo cáo theo yêu cầu người dùng, trong bước Documentation của TASK-004 trên `thanhbinh`; không triển khai đầu việc code mới.
+- **Describe / kết quả:** Bổ sung phạm vi báo cáo vào [Issue #1](https://github.com/QuocAn118/Classify-images-using-Vision-Transformer/issues/1) trước khi viết. Repo chưa có báo cáo, nên tạo `report/report.md` với khung 10 mục theo spec; viết phần ViT ở mục 3 (sơ đồ, config, patch/CLS/positional embedding, Pre-LN, hai nhánh attention, DropPath, head, khởi tạo và factory), kiểm chứng tại mục 4.1 và trạng thái/phương án attention ở mục 6. Các phần còn lại chờ thành viên phụ trách, chỉ số chưa đo và hình chưa sinh ghi "chưa có". Thêm link báo cáo trong README và ghi nhận AI.
+- **Nguồn và kiểm chứng:** Đối chiếu mô tả với `src/models/vit.py`, factory, YAML, `outputs/results/task004_vit_checks.json` và nhật ký test; không thêm số liệu huấn luyện. Kiểm tra nguồn tham khảo tại arXiv:2010.11929 và ACL Anthology:2020.acl-main.385. Kiểm tra UTF-8, link tương đối, cấu trúc mục, công thức và whitespace; chỉ sửa Markdown nên không chạy lại unit test. Bằng chứng 48 test pass vẫn thuộc buổi triển khai trước.
+- **Giới hạn / bước tiếp theo:** Báo cáo là bản nháp, chưa có kết quả huấn luyện hoặc hình attention; chưa đánh dấu TASK-008 hay báo cáo cuối hoàn thành. Cập nhật commit lên `fork/thanhbinh` để PR #2 nhận phần báo cáo, chờ TV1 review; không push hoặc merge vào main. Quyền GitHub Projects vẫn thiếu như buổi trước.
+
 ## Mẫu buổi làm
 - Ngày: [YYYY-MM-DD]
 - Đầu việc: [TASK-xxx — tên]
