@@ -14,6 +14,7 @@ Chỉ ghi công cụ và đóng góp đã biết. Phần chưa rõ ghi "chưa x�
 | Claude (trong cuộc trò chuyện giữa người dùng và Claude), model cụ thể chưa xác nhận | Soạn bản đầu của `SPEC_ViT.md` | Soạn bản đầu của spec | Người dùng trao đổi yêu cầu và đưa file vào repo; đóng góp chi tiết chưa xác nhận |
 | Codex (GPT-6) | Đọc và nắm hiện trạng dự án (2026-11-17) | Đọc tài liệu, config, mã nguồn và test; đối chiếu tiến độ; chạy `python -m pytest -q -W error` (25 passed); ghi nhật ký buổi đọc. Không triển khai đầu việc code mới | Người dùng yêu cầu đọc dự án và cung cấp quy tắc repo; chưa có xác nhận review mới |
 | Codex (GPT-6) | TASK-004: ViT và kiểm thử (2026-11-17) | Pull main, tạo nhánh `tv2/task-004-vit`, tạo Issue #1 theo mẫu; viết ViT PyTorch thuần, `build_model(cfg)` và 23 test; chạy toàn bộ 48 test, forward/backward mặc định và lưu bằng chứng JSON; cập nhật tài liệu, chuẩn bị nội dung PR. Sau đó tạo nhánh `thanhbinh` để commit theo yêu cầu mới | Người dùng xác nhận vai trò TV2 và giao TASK-004, yêu cầu đọc gốc trước docs và làm nhánh riêng; sau đó yêu cầu mọi thay đổi được commit trên `thanhbinh`. TV1 chưa review; chưa yêu cầu push |
+| Codex (GPT-6) | TASK-004: bàn giao PR (2026-11-17) | Kiểm tra nhánh theo main mới nhất; tạo fork cá nhân, push riêng `thanhbinh` và mở PR #2 về repo nhóm với bằng chứng kiểm thử; cập nhật Issue, tài liệu và nhật ký. Không merge hoặc push vào main | Người dùng yêu cầu tiếp tục đưa TASK-004 lên PR và nhắc chỉ hoạt động trên `thanhbinh`, chờ TV1 kiểm tra trước khi merge. TV1 chưa review |
 
 ## Ghi chú
 

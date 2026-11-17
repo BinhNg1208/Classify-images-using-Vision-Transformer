@@ -2,7 +2,7 @@
 
 **Người giữ:** TV2 (ViT), TV3 (CNN, đo FLOPs/MACs). **Đầu việc:** TASK-004, TASK-005. **Code:** `src/models/__init__.py` (`build_model`), `src/models/vit.py`; `src/models/cnn.py` chưa có.
 
-**TASK-004:** đã triển khai và kiểm tra trên CPU ở nhánh `thanhbinh`, chờ PR và TV1 review; chưa đánh dấu Hoàn thành. Describe tại [Issue #1](https://github.com/QuocAn118/Classify-images-using-Vision-Transformer/issues/1).
+**TASK-004:** đã triển khai và kiểm tra trên CPU ở nhánh `thanhbinh`, chờ TV1 review tại [PR #2](https://github.com/QuocAn118/Classify-images-using-Vision-Transformer/pull/2); chưa đánh dấu Hoàn thành. Nhánh nguồn của PR là `BinhNg1208:thanhbinh` trên fork cá nhân do TV2 chưa có quyền push repo gốc. Describe tại [Issue #1](https://github.com/QuocAn118/Classify-images-using-Vision-Transformer/issues/1).
 
 ## Thành phần làm gì
 Cung cấp ViT tự cài (có lấy được attention) và một ResNet nhỏ có số tham số chênh không quá 5% so với ViT, để so sánh công bằng.

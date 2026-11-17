@@ -2,7 +2,7 @@
 
 Đồ án môn Học sâu, đề số 9. Nhóm tự cài ViT, so sánh với một CNN có cùng số tham số và trực quan hóa attention.
 
-> **Trạng thái:** đã có khung repo (TASK-001), chuẩn bị dữ liệu (TASK-002) và DataLoader (TASK-003). ViT và test (TASK-004) đã triển khai trên nhánh `thanhbinh`, chờ TV1 review; chưa có CNN, vòng lặp train hay kết quả huấn luyện.
+> **Trạng thái:** đã có khung repo (TASK-001), chuẩn bị dữ liệu (TASK-002) và DataLoader (TASK-003). ViT và test (TASK-004) đã triển khai trên nhánh `thanhbinh`, đang chờ TV1 review tại [PR #2](https://github.com/QuocAn118/Classify-images-using-Vision-Transformer/pull/2); chưa có CNN, vòng lặp train hay kết quả huấn luyện.
 
 ## Bài toán
 

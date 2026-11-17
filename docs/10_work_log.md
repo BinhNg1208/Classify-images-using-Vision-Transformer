@@ -137,6 +137,14 @@ Ghi ngắn sau mỗi buổi hoặc mốc đáng kể.
 - **Bằng chứng kiểm tra:** Code không đổi so với lần kiểm tra 48 test pass và smoke test trước đó; chỉ đổi ghi nhận nhánh/tài liệu. Kiểm tra diff và staged diff trước commit, đối chiếu ref `main` sau commit để bảo đảm không thay đổi.
 - **Giới hạn / bước tiếp theo:** Chưa push hoặc mở PR; TASK-004 vẫn chờ TV1 review. Quyền GitHub Projects và quyền push vào repo gốc còn thiếu như bản ghi trước.
 
+## 2026-11-17 (TASK-004, push nhánh thanhbinh và mở PR)
+
+- **Đầu việc:** Bàn giao TASK-004 để TV1 review theo yêu cầu tiếp tục của người dùng; chỉ commit/push trên `thanhbinh`, không merge vào `main`.
+- **Kết quả / thay đổi chính:** `git fetch origin main` xác nhận nhánh đã chứa main mới nhất (`b29de54`). Tài khoản `BinhNg1208` chưa có quyền push repo gốc, nên tạo fork `BinhNg1208/Classify-images-using-Vision-Transformer`, thêm remote `fork` và `git push --set-upstream fork thanhbinh:thanhbinh`. Mở [PR #2](https://github.com/QuocAn118/Classify-images-using-Vision-Transformer/pull/2), nguồn `BinhNg1208:thanhbinh`, đích `QuocAn118:main`, gắn `Closes #1`; PR đang mở và chưa merge. Cập nhật README, tài liệu mô hình và AI_Usage với link PR.
+- **Bằng chứng kiểm tra:** `git merge-base --is-ancestor origin/main HEAD` và `git diff origin/main...HEAD --check` đều đạt; audit file tracked không có dữ liệu, checkpoint hay `kaggle.json`. Code vẫn ở commit `73ac662`, đã có 48 test pass và bằng chứng smoke test từ buổi triển khai; buổi bàn giao chỉ đổi tài liệu nên không chạy lại test. Nhánh `thanhbinh` theo dõi `fork/thanhbinh`; local `main` giữ nguyên tại `b29de54`.
+- **Giới hạn:** Yêu cầu reviewer `QuocAn118` qua API chưa thành công (HTTP 404), nên chưa có reviewer được gán tự động. Token vẫn thiếu quyền GitHub Projects; chưa cập nhật được bảng. Không tự đóng Issue hoặc đánh dấu TASK-004 Hoàn thành; chưa chạy GPU/AMP/VRAM.
+- **Bước tiếp theo:** TV1 đọc PR và quyết định merge. TASK-008 chưa bắt đầu vì TASK-006 và checkpoint chưa có; không mở rộng sang đầu việc khác trong buổi bàn giao.
+
 ## Mẫu buổi làm
 - Ngày: [YYYY-MM-DD]
 - Đầu việc: [TASK-xxx — tên]
