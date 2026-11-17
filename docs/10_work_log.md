@@ -100,6 +100,14 @@ Ghi ngắn sau mỗi buổi hoặc mốc đáng kể.
 - **Điều chưa hiểu / chưa xác minh:** Chưa đo trên máy GPU; chưa biết GPU có phải chờ DataLoader không.
 - **Bước tiếp theo:** TV2 làm TASK-004, TV3 làm TASK-005, TV4 làm TASK-006 trên nhánh riêng.
 
+## 2026-11-17 (hợp đồng tạo mô hình)
+
+- **Đầu việc:** chốt hợp đồng dùng chung `build_model(cfg)` trong `docs/05_model.md` trước khi TV2, TV3, TV4 bắt đầu.
+- **Kết quả / thay đổi chính:** thêm `build_model(cfg)` (chọn theo `model.name`) vào hợp đồng mô hình; TV1 chốt làm lần lượt TASK-004 → 005 → 006, không cắt việc, giữ các mốc hiện tại.
+- **Bằng chứng kiểm tra:** chỉ sửa tài liệu, chưa có code.
+- **Điều chưa hiểu / chưa xác minh:** TV2, TV3, TV4 chưa xác nhận đã đọc hợp đồng.
+- **Bước tiếp theo:** TV1 nhắn TV2 bắt đầu TASK-004 trên nhánh riêng.
+
 ## Mẫu buổi làm
 - Ngày: [YYYY-MM-DD]
 - Đầu việc: [TASK-xxx — tên]

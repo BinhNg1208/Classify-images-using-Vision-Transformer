@@ -1,6 +1,6 @@
 # Mô hình
 
-**Người giữ:** TV2 (ViT), TV3 (CNN, đo FLOPs/MACs). **Đầu việc:** TASK-004, TASK-005. **Code:** `src/models/vit.py`, `src/models/cnn.py` (chưa có).
+**Người giữ:** TV2 (ViT), TV3 (CNN, đo FLOPs/MACs). **Đầu việc:** TASK-004, TASK-005. **Code:** `src/models/__init__.py` (`build_model`), `src/models/vit.py`, `src/models/cnn.py` (chưa có).
 
 ## Thành phần làm gì
 Cung cấp ViT tự cài (có lấy được attention) và một ResNet nhỏ có số tham số chênh không quá 5% so với ViT, để so sánh công bằng.
@@ -17,9 +17,16 @@ Cùng cỡ tham số nhưng chi phí tính toán có thể chênh nhiều. **D�
 ## Hợp đồng
 
 ```python
+from src.models import build_model
+model = build_model(cfg)                  # cfg từ load_config; chọn theo cfg["model"]["name"]
 logits = model(x)                         # x: (B,3,H,W), logits: (B,num_classes)
 logits, attns = vit(x, return_attn=True)  # chỉ ViT; attns: list[(B,heads,N+1,N+1)], mỗi layer một phần tử
 ```
+
+- `build_model(cfg)` là cách duy nhất để train, đánh giá, attention và demo tạo mô hình; không ai import thẳng lớp ViT hay CNN.
+- `model.name: vit` → ViT (TV2, TASK-004 tạo hàm này và nhánh `vit`); `model.name: resnet_small` → CNN (TV3, TASK-005 thêm nhánh). Tên khác thì báo `ValueError` liệt kê tên hợp lệ.
+- Đọc `img_size`, `num_classes` từ `cfg["data"]`, phần còn lại từ `cfg["model"]`; không hardcode.
+- Thứ tự gộp vào `main`: TASK-004 → TASK-005 → TASK-006 (TV1 chốt 2026-11-17).
 
 Bên dùng: [06_training.md](06_training.md), [07_evaluation.md](07_evaluation.md), [08_demo.md](08_demo.md). Muốn đổi thì sửa ở đây và báo cả nhóm.
 

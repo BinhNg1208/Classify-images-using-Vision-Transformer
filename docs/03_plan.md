@@ -45,7 +45,7 @@ TV1 đã xác định (trưởng nhóm, chủ repo); tên thật của TV2-TV5 s
 
 **Điều kiện bắt đầu code:** Chỉ bắt đầu TASK-001 và các đầu việc code khác sau khi nhóm duyệt `docs/`. Bản thử đầu của TASK-001 viết sai thứ tự nên đã bị xóa.
 
-**Đầu việc tiếp theo:** TASK-004 (TV2, ViT) và TASK-005 (TV3, CNN) làm song song; TASK-006 (TV4) dùng `build_loader` theo hợp đồng trong [04_data.md](04_data.md); TV1 làm thẳng trên `main` (DEC-014).
+**Đầu việc tiếp theo:** làm lần lượt TASK-004 (TV2, ViT, tạo `build_model`) → TASK-005 (TV3, CNN) → TASK-006 (TV4, dùng `build_loader` và `build_model` theo [04_data.md](04_data.md), [05_model.md](05_model.md)); TV1 chốt làm lần lượt ngày 2026-11-17; TV1 làm thẳng trên `main` (DEC-014).
 
 ## Mốc và lịch
 
