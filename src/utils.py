@@ -20,6 +20,7 @@ REQUIRED_KEYS: tuple[str, ...] = (
     "seed",
     "data.name",
     "data.root",
+    "data.cache_dir",
     "data.img_size",
     "data.num_classes",
     "data.batch_size",

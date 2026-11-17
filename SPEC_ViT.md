@@ -108,7 +108,7 @@ tiny-imagenet-200/
 ### 5.2 Việc cần làm
 
 1. Viết `prepare_data.py` để:
-   - Tải/giải nén dữ liệu. Nếu không có API Kaggle, đọc từ đường dẫn người dùng đặt trong config (`data.root`) và in hướng dẫn tải thủ công (đăng nhập Kaggle, Join Competition, tải zip). Có thể dùng `kaggle competitions download -c tiny-imagenet` khi có `kaggle.json`.
+   - Tải/giải nén dữ liệu từ nguồn Stanford (`--download`, DEC-015; trang Kaggle cần lời mời). Không có dữ liệu ở `data.root` và không có `--download` thì dừng và in hướng dẫn tải tay.
    - Sắp xếp lại `val/` thành `val/<wnid>/*.JPEG` dựa vào `val_annotations.txt`.
    - Kiểm tra đủ 200 lớp, 100.000 ảnh train, 10.000 ảnh val; in thống kê.
    - Xuất train/val/test thành mảng `uint8` (.npy) đã resize về `img_size`; DataLoader đọc từ mảng này, vì giải mã JPEG và augmentation trên CPU thường là nút thắt. Chỉ tiêu: dữ liệu cache khoảng 1,35 GB (110.000 x 64 x 64 x 3 byte, tính tay); chạy lại không làm hỏng dữ liệu.

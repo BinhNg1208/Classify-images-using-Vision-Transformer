@@ -102,7 +102,7 @@ Chi tiết từng yêu cầu và tiêu chí nghiệm thu (AC) nằm ở file th�
 | Nơi nộp mẫu đăng ký, có cần duyệt không | Ảnh hưởng lịch | TV1 | Đã nộp 15/11; giảng viên chưa phản hồi về việc duyệt |
 | Giảng viên có quy định khác ngoài phần đã thấy trên sheet | Thiếu sản phẩm phải nộp | TV1 | Chưa xác nhận |
 | Bằng chứng các bước Describe, Review, Test, Commit để trên GitHub Issue/PR thay vì file trong `docs/` | Phải chép lại vào file | TV1 hỏi giảng viên | Chưa xác nhận |
-| Tải được Tiny ImageNet từ Kaggle | Chuyển sang CIFAR-100 | TV1 (TASK-002) | 2026-11-16: trang cuộc thi Kaggle báo "Invitation required", không tải được; tìm nguồn khác trong TASK-002 |
+| Tải được Tiny ImageNet từ Kaggle | Chuyển sang CIFAR-100 | TV1 (TASK-002) | 2026-11-16: trang cuộc thi Kaggle báo "Invitation required", không tải được; tải từ Stanford thay thế (DEC-015) |
 | Thành viên có GPU là ai | Chưa gán được TV4 | Cả nhóm | Chưa xác nhận |
 | Batch 64 có vừa 6GB VRAM với cả hai mô hình (đặc biệt CNN) | Dùng gradient accumulation hoặc giảm batch còn 32 với cả hai mô hình | TV4 | Chưa đo |
 | Thời gian mỗi epoch trên máy GPU. Dự đoán, ước tính thô, chưa đo: ViT khoảng 1–2 phút/epoch, CNN khoảng 3–6 phút/epoch trên GPU 6GB cỡ phổ thông, nên 50 epoch cho cả hai khoảng 4–6 giờ. Số của CNN tính cho stem cũ chưa downsample, thiết kế mới có thể nhanh hơn. Phải đo thật trước khi chốt số thí nghiệm. | Phải cắt thí nghiệm hoặc chuyển phần còn lại sang Kaggle/Colab (50 epoch là mức sàn) | TV4 | Chưa đo |

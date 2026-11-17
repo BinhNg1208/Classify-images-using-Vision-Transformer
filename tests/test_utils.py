@@ -17,6 +17,7 @@ seed: 42
 data:
   name: tiny_imagenet
   root: data/tiny-imagenet-200
+  cache_dir: data/cache/tiny_imagenet_64
   img_size: 64
   num_classes: 200
   batch_size: 64

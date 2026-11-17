@@ -71,6 +71,21 @@ Ghi ngắn sau mỗi buổi hoặc mốc đáng kể.
 - **Điều chưa hiểu / chưa xác minh:** `atomic_save` chưa thử khi mất điện thật; `os.replace` chỉ nguyên tử khi file tạm và file đích cùng ổ đĩa (đang đảm bảo vì tạo cùng thư mục). Chưa cài thử `requirements.txt` trên máy sạch và máy GPU.
 - **Bước tiếp theo:** TV1 làm TASK-002; TV2 bắt đầu TASK-004 trên nhánh riêng.
 
+## 2026-11-16 (TASK-002)
+
+- **Đầu việc:** TASK-002, chuẩn bị dữ liệu, chia tập, xuất mảng cache (TV1, thẳng trên `main`).
+- **Kết quả / thay đổi chính:**
+  - `scripts/prepare_data.py`: `--download` tải zip từ Stanford (trang Kaggle cần lời mời, DEC-015); đọc nhãn val từ `val_annotations.txt`; kiểm tra số lượng; chia train gốc 90/10 phân tầng seed 42; xuất cache `.npy` (ghi file tạm rồi đổi tên); `class_names.json`, `dataset_stats.json`, `samples.png`.
+  - Thêm khóa bắt buộc `data.cache_dir` vào cả hai config và `REQUIRED_KEYS`; thêm `pillow`, `matplotlib` vào `requirements.txt`.
+- **Bằng chứng kiểm tra:**
+  - Viết test trước: 6 test mới fail (hàm chưa viết), sau khi viết code toàn bộ 18 passed.
+  - Cố ý làm hỏng code: bỏ sắp xếp mã lớp → 2 test fail; chia không theo lớp → 2 test fail. Khôi phục: 18 passed.
+  - Chạy thật trên máy TV1: "200 lớp, 100000 ảnh train gốc, 10000 ảnh val gốc"; `{"train": 90000, "val": 10000, "test": 10000}`, cache 1.35 GB; đếm nhãn trong cache: mỗi lớp 450 train / 50 val / 50 test. Thời gian 64 phút.
+  - Ảnh mẫu lần đầu chỉ có một lớp (lấy 25 ảnh đầu) và đường dẫn trong stats dùng `\`; đã sửa (lấy ngẫu nhiên, đường dẫn dạng `/`, có test), tạo lại hai file này từ cache.
+- **Điều tôi giải thích được về code:** TV1 đã đọc `scripts/prepare_data.py` ngày 2026-11-17 và đồng ý đưa lên `main`.
+- **Điều chưa hiểu / chưa xác minh:** Chưa chạy lại toàn bộ trên dữ liệu thật sau lần sửa cuối (chỉ tạo lại ảnh mẫu và stats); chưa thử `--download` trên Linux/máy GPU; chưa có test cho trường hợp ghi `.npy` bị lỗi giữa chừng. Vì sao chạy mất 64 phút chưa đo (nghi do đọc 110.000 file nhỏ trên Windows).
+- **Bước tiếp theo:** TV1 làm TASK-003; TV2 làm TASK-004 trên nhánh riêng.
+
 ## Mẫu buổi làm
 - Ngày: [YYYY-MM-DD]
 - Đầu việc: [TASK-xxx — tên]

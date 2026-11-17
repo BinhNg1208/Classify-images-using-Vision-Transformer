@@ -1,0 +1,46 @@
+{
+  "dataset": "tiny_imagenet",
+  "num_classes": 200,
+  "img_size": 64,
+  "seed": 42,
+  "counts": {
+    "train": 90000,
+    "val": 10000,
+    "test": 10000
+  },
+  "cache": {
+    "train": {
+      "x": "data/cache/tiny_imagenet_64/train_x.npy",
+      "y": "data/cache/tiny_imagenet_64/train_y.npy",
+      "shape": [
+        90000,
+        64,
+        64,
+        3
+      ],
+      "bytes": 1105920000
+    },
+    "val": {
+      "x": "data/cache/tiny_imagenet_64/val_x.npy",
+      "y": "data/cache/tiny_imagenet_64/val_y.npy",
+      "shape": [
+        10000,
+        64,
+        64,
+        3
+      ],
+      "bytes": 122880000
+    },
+    "test": {
+      "x": "data/cache/tiny_imagenet_64/test_x.npy",
+      "y": "data/cache/tiny_imagenet_64/test_y.npy",
+      "shape": [
+        10000,
+        64,
+        64,
+        3
+      ],
+      "bytes": 122880000
+    }
+  }
+}
