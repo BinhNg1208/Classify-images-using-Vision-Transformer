@@ -1,6 +1,6 @@
 # Dữ liệu
 
-**Người giữ:** TV1. **Đầu việc:** TASK-002, TASK-003. **Code:** `scripts/prepare_data.py` (TASK-002), `src/data.py` (TASK-003, chưa có).
+**Người giữ:** TV1. **Đầu việc:** TASK-002, TASK-003. **Code:** `scripts/prepare_data.py` (TASK-002), `src/data.py` (TASK-003).
 
 ## Thành phần làm gì
 Chuẩn bị Tiny ImageNet thành ba tập train, validation, test không rò rỉ, lưu thành mảng cache để DataLoader đọc nhanh, và áp dụng augmentation khi train.
@@ -21,6 +21,14 @@ Chuẩn bị Tiny ImageNet thành ba tập train, validation, test không rò r�
 - Mean/std của ImageNet, khai báo trong config `data.mean`, `data.std` (DEC-011).
 - Train: RandomCrop(`img_size`, padding=4), lật ngang, RandAugment; RandomErasing mặc định tắt (DEC-012).
 - Mixup/CutMix áp ở vòng lặp train, xem [06_training.md](06_training.md).
+
+**Hợp đồng `src/data.py`** (bên dùng: train, đánh giá, attention):
+- `build_loader(cfg, split)` với `split` là `"train"`, `"val"` hoặc `"test"`; trả về `DataLoader` cho batch `(x, y)`: `x` float32 `(B, 3, img_size, img_size)` đã chuẩn hóa, `y` int64.
+- `train.py` chỉ gọi `"train"` và `"val"`; chỉ `evaluate.py` gọi `"test"`.
+- Train: xáo trộn, bỏ batch lẻ cuối (`drop_last`). Val/test: giữ thứ tự, đủ mọi ảnh.
+- Đọc config: `data.cache_dir`, `img_size`, `batch_size`, `num_workers`, `mean`, `std`, `randaugment`, `random_erasing`. `pin_memory` chỉ bật khi có CUDA; `persistent_workers` chỉ bật khi `num_workers > 0`.
+- Chưa có cache thì báo `FileNotFoundError` kèm lệnh `prepare_data`. Dữ liệu giả cho `--quick` do vòng lặp train tự tạo (TASK-006).
+- Script dùng `num_workers > 0` trên Windows phải đặt code chạy trong `if __name__ == "__main__":`.
 
 ## FR-001: Chuẩn bị dữ liệu
 - **Người sử dụng:** Thành viên nhóm, giảng viên chạy lại.
@@ -52,7 +60,9 @@ Chuẩn bị Tiny ImageNet thành ba tập train, validation, test không rò r�
 |---|---|---|
 | `python scripts/prepare_data.py --download` | Máy mới, chưa có dữ liệu (tải 248 MB từ Stanford) | Đã chạy 2026-11-16 trên máy TV1 |
 | `python scripts/prepare_data.py` | Đã có `data/tiny-imagenet-200/` | Đã chạy 2026-11-16 trên máy TV1: 64 phút (CPU, Windows) |
+| `build_loader(cfg, "train")` | Đã có cache | Đo 2026-11-17 trên máy TV1 (CPU, 4 worker): train khoảng 825 ảnh/giây, val khoảng 3.200 ảnh/giây |
 
 ## Rủi ro
 - Nguồn dữ liệu: trang Kaggle cần lời mời, nên tải từ Stanford (DEC-015). Nếu link Stanford chết trước khi máy GPU tải xong thì chuyển CIFAR-100 (DEC-001).
 - Rò rỉ dữ liệu test: chỉ `evaluate.py` đọc test, chạy sau khi chốt cấu hình.
+- DataLoader có thể là nút thắt: 825 ảnh/giây trên máy TV1 nghĩa là khoảng 110 giây/epoch chỉ để chuẩn bị ảnh, do RandAugment chạy trên CPU. TV4 đo lại trên máy GPU; nếu GPU chờ dữ liệu thì tăng `num_workers`.

@@ -8,7 +8,7 @@
 
 - **Môn:** Học sâu (Deep Learning). **Nhóm mô hình:** Transformer. **Đề số:** 9.
 - **Task:** Classification (phân loại ảnh, 200 lớp).
-- **Dataset:** Tiny ImageNet (https://www.kaggle.com/c/tiny-imagenet). Đề gốc cho phép Tiny ImageNet **hoặc** CIFAR-100. Nhóm chọn Tiny ImageNet và chỉ chuyển sang CIFAR-100 theo quy tắc ở mục 20.
+- **Dataset:** Tiny ImageNet (tải từ https://cs231n.stanford.edu/tiny-imagenet-200.zip, DEC-015). Đề gốc cho phép Tiny ImageNet **hoặc** CIFAR-100. Nhóm chọn Tiny ImageNet và chỉ chuyển sang CIFAR-100 theo quy tắc ở mục 20.
 - **Model:** Vision Transformer (ViT) = patch embedding + Transformer encoder.
 - **Extension bắt buộc:**
   1. So sánh ViT với CNN **có cùng số lượng tham số** (sai lệch cho phép <= 5%).
@@ -351,7 +351,7 @@ Quy tắc cắt việc:
 2. **Hướng chính:** AI dự đoán.
 3. **Người sử dụng và vấn đề:** Sinh viên và người nghiên cứu thị giác máy tính cần chọn giữa ViT và CNN khi dữ liệu ít, ảnh độ phân giải thấp và số tham số bị giới hạn. Khó khăn hiện tại: ViT thường cần nhiều dữ liệu, các so sánh hay dùng mô hình khác cỡ nên khó công bằng, và khó biết mô hình đang nhìn vào vùng nào của ảnh.
 4. **Mục tiêu:** Có mô hình ViT tự cài đặt và CNN baseline chênh không quá 5% số tham số. Đo Top-1 và Top-5 trên tập test. Mức Top-1 dự đoán của nhóm là ViT khoảng 40%, CNN khoảng 50%; đây không phải cam kết và không phải điều kiện đạt, có thể thấp hơn khi chỉ train 50 epoch. Có hình attention cho ít nhất 12 ảnh.
-5. **Dữ liệu:** Tiny ImageNet trên Kaggle; trường dữ liệu gồm ảnh RGB 64x64 và nhãn lớp; quy mô 200 lớp, 100.000 ảnh train, 10.000 ảnh val có nhãn. Quyền sử dụng: [nhóm kiểm tra điều khoản trên trang Kaggle trước khi nộp]. Phương án thay thế: CIFAR-100.
+5. **Dữ liệu:** Tiny ImageNet (Stanford CS231n); trường dữ liệu gồm ảnh RGB 64x64 và nhãn lớp; quy mô 200 lớp, 100.000 ảnh train, 10.000 ảnh val có nhãn. Quyền sử dụng: [nhóm kiểm tra điều khoản của Stanford CS231n trước khi nộp; repo không chứa dữ liệu, mỗi máy tự tải]. Phương án thay thế: CIFAR-100.
 6. **Phạm vi:** Bắt buộc gồm ViT tự cài, CNN cùng số tham số, trực quan hóa attention, demo. Mở rộng nếu còn thời gian gồm Grad-CAM, đo FLOPs/MACs, 3 seed, ablation, CNN thứ hai có FLOPs xấp xỉ ViT.
 7. **Phương pháp:** Baseline là ResNet nhỏ tự cài, khớp số tham số với ViT. Giải pháp là ViT (patch embedding + Transformer encoder) dùng AdamW, warmup + cosine, Mixup/CutMix, trực quan hóa bằng CLS attention và attention rollout.
 8. **Sản phẩm:** Mô hình đã huấn luyện, demo Gradio, ảnh mẫu, mã nguồn, README, báo cáo.

@@ -2,7 +2,7 @@
 
 Đồ án môn Học sâu, đề số 9. Nhóm tự cài ViT, so sánh với một CNN có cùng số tham số và trực quan hóa attention.
 
-> **Trạng thái:** đã có khung repo và tiện ích dùng chung (TASK-001); chưa có dữ liệu, mô hình hay kết quả.
+> **Trạng thái:** đã có khung repo (TASK-001), chuẩn bị dữ liệu (TASK-002) và DataLoader (TASK-003); chưa có mô hình hay kết quả.
 
 ## Bài toán
 
@@ -22,7 +22,16 @@ Xem sơ đồ và thành phần tại [docs/02_architecture.md](docs/02_architec
 
 ## Cài đặt và chạy
 
-Chưa có. Lệnh dự kiến nằm trong mục "Cách chạy" của từng file `docs/` và sẽ được đưa vào đây sau khi đã chạy thử thật.
+Repo không chứa dữ liệu. Mỗi máy tự tải và tạo cache (DEC-015):
+
+```bash
+pip install -r requirements.txt        # máy GPU: cài torch bản CUDA trước
+python scripts/prepare_data.py --download
+python -m pytest
+```
+
+- `prepare_data.py --download` tải Tiny ImageNet từ Stanford (248 MB) vào `data/`, chia train/validation/test và tạo cache khoảng 1,35 GB ở `data/cache/tiny_imagenet_64/`. Trên máy TV1 (CPU, Windows) mất 64 phút.
+- Lệnh train, đánh giá, demo sẽ thêm vào đây sau khi đã chạy thử thật.
 
 ## Tài liệu
 

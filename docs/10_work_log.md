@@ -86,6 +86,20 @@ Ghi ngắn sau mỗi buổi hoặc mốc đáng kể.
 - **Điều chưa hiểu / chưa xác minh:** Chưa chạy lại toàn bộ trên dữ liệu thật sau lần sửa cuối (chỉ tạo lại ảnh mẫu và stats); chưa thử `--download` trên Linux/máy GPU; chưa có test cho trường hợp ghi `.npy` bị lỗi giữa chừng. Vì sao chạy mất 64 phút chưa đo (nghi do đọc 110.000 file nhỏ trên Windows).
 - **Bước tiếp theo:** TV1 làm TASK-003; TV2 làm TASK-004 trên nhánh riêng.
 
+## 2026-11-17 (TASK-003)
+
+- **Đầu việc:** TASK-003, DataLoader đọc mảng cache và augmentation (TV1, thẳng trên `main`).
+- **Kết quả / thay đổi chính:**
+  - `src/data.py`: `build_loader(cfg, split)` và `CachedDataset`; mở cache bằng mmap lười, không pickle cả mảng sang worker (Windows tạo worker bằng spawn); train: RandomCrop padding 4, lật ngang, RandAugment, RandomErasing theo config; val/test: chỉ chuẩn hóa.
+  - Hợp đồng ghi trong `docs/04_data.md`. Sửa các chỗ còn ghi Kaggle trong `SPEC_ViT.md`; thêm hướng dẫn chạy vào `README.md`.
+- **Bằng chứng kiểm tra:**
+  - Viết test trước: 7 test mới fail (chưa có code); sau khi viết code: 25 passed (coi cảnh báo là lỗi).
+  - Cố ý làm hỏng code: bỏ `__getstate__` → test pickle fail; val bỏ Normalize → test val fail; train không bỏ batch lẻ → test option fail. Khôi phục: 25 passed.
+  - Cache thật, `configs/vit_small.yaml`, 4 worker, CPU: batch `(64, 3, 64, 64)` float32; 1406 batch train/epoch, 157 batch val; train khoảng 825 ảnh/giây, val khoảng 3.223 ảnh/giây (100 batch, một lần đo).
+- **Điều tôi giải thích được về code:** TV1 đã đọc `src/data.py` ngày 2026-11-17 và đồng ý đưa lên `main`.
+- **Điều chưa hiểu / chưa xác minh:** Chưa đo trên máy GPU; chưa biết GPU có phải chờ DataLoader không.
+- **Bước tiếp theo:** TV2 làm TASK-004, TV3 làm TASK-005, TV4 làm TASK-006 trên nhánh riêng.
+
 ## Mẫu buổi làm
 - Ngày: [YYYY-MM-DD]
 - Đầu việc: [TASK-xxx — tên]

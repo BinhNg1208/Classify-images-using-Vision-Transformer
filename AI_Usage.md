@@ -10,6 +10,7 @@ Chỉ ghi công cụ và đóng góp đã biết. Phần chưa rõ ghi "chưa x�
 | Claude Code (Claude Opus 5.5), plugin ponytail và superpowers | Sắp xếp lại `docs/` | Chia `docs/` theo thành phần, tóm tắt `Project_description.md`, viết mẫu Issue và PR, sửa `AGENTS.md` | Người dùng chọn hướng chia theo thành phần và theo dõi trạng thái trên GitHub. Việc duyệt nội dung: chưa xác nhận |
 | Claude Code (Claude Opus 5.5), plugin ponytail và superpowers (skill TDD) | TASK-001: khung repo | Viết test trước, rồi `src/utils.py`, hai file config, `.gitignore`, `requirements.txt`, `pytest.ini`; thử làm hỏng code để kiểm tra test | TV1 giao việc, quyết định phạm vi và làm thẳng trên `main`. TV1 đã đọc `src/utils.py` ngày 2026-11-16 |
 | Claude Code (Claude Opus 5.5), plugin ponytail và superpowers (skill TDD) | TASK-002: chuẩn bị dữ liệu | Viết test trước, rồi `scripts/prepare_data.py`; tìm nguồn tải Stanford thay Kaggle; chạy trên dữ liệu thật và kiểm tra số lượng | TV1 giao việc, quyết định không chia sẻ dữ liệu (DEC-015). TV1 đã đọc `scripts/prepare_data.py` ngày 2026-11-17 |
+| Claude Code (Claude Opus 5.5), plugin ponytail và superpowers (skill TDD) | TASK-003: DataLoader | Viết test trước, rồi `src/data.py`; chốt hợp đồng `build_loader`; đo tốc độ trên cache thật | TV1 giao việc; TV1 đã đọc `src/data.py` ngày 2026-11-17 |
 | Claude (trong cuộc trò chuyện giữa người dùng và Claude), model cụ thể chưa xác nhận | Soạn bản đầu của `SPEC_ViT.md` | Soạn bản đầu của spec | Người dùng trao đổi yêu cầu và đưa file vào repo; đóng góp chi tiết chưa xác nhận |
 
 ## Ghi chú
