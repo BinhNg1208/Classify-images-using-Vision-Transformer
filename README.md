@@ -2,7 +2,7 @@
 
 Đồ án môn Học sâu, đề số 9. Nhóm tự cài ViT, so sánh với một CNN có cùng số tham số và trực quan hóa attention.
 
-> **Trạng thái:** đã có khung repo (TASK-001), chuẩn bị dữ liệu (TASK-002) và DataLoader (TASK-003). ViT và test (TASK-004) đã triển khai trên nhánh `thanhbinh`, đang chờ TV1 review tại [PR #2](https://github.com/QuocAn118/Classify-images-using-Vision-Transformer/pull/2); chưa có CNN, vòng lặp train hay kết quả huấn luyện.
+> **Trạng thái:** đã có khung repo (TASK-001), chuẩn bị dữ liệu (TASK-002) và DataLoader (TASK-003). ViT và test (TASK-004, TV2) đã gộp vào `main` qua [PR #2](https://github.com/QuocAn118/Classify-images-using-Vision-Transformer/pull/2); chưa có CNN, vòng lặp train hay kết quả huấn luyện.
 
 ## Bài toán
 
@@ -50,7 +50,7 @@ python -m pytest tests/test_models.py -q -W error
 | [Project_description.md](Project_description.md) | Tóm tắt Define, Design, Plan và mục lục `docs/` |
 | [docs/](docs/) | Tài liệu theo thành phần: dữ liệu, mô hình, huấn luyện, đánh giá, demo; kèm define, kiến trúc, quyết định, kế hoạch, nhật ký |
 | [SPEC_ViT.md](SPEC_ViT.md) | Yêu cầu kỹ thuật chi tiết, nháp mẫu đăng ký |
-| [report/report.md](report/report.md) | Bản nháp báo cáo: đã có phần kiến trúc ViT và kiểm chứng của TV2; phương án attention và các phần chưa có kết quả được ghi rõ |
+| [report/report.md](report/report.md) | Báo cáo cuối của nhóm (đang viết): mỗi mục ghi người phụ trách và nội dung bắt buộc; đã có phần dữ liệu và kiến trúc ViT |
 | [AGENTS.md](AGENTS.md) | Quy tắc cho người và AI khi làm việc trong repo |
 | [AI_Usage.md](AI_Usage.md) | Ghi nhận việc dùng AI |
 | [workflow/](workflow/) | Quy trình 14 bước giảng viên yêu cầu |

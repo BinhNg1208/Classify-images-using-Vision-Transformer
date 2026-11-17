@@ -3,7 +3,7 @@
 Chi tiết từng thành phần nằm ở file riêng; file này chỉ giữ phần dùng chung. Các quyết định thiết kế ở [09_decisions.md](09_decisions.md).
 
 ## Hiện trạng
-- Đã có khung repo và `src/utils.py` (TASK-001); chưa có dữ liệu, mô hình hay vòng lặp train.
+- Đã có `src/utils.py`, `scripts/prepare_data.py`, `src/data.py` (TASK-001 đến 003) và `src/models/` với ViT, `build_model` (TASK-004); chưa có CNN, vòng lặp train, đánh giá hay demo.
 - Tái sử dụng `torchvision`: transform, RandAugment, CIFAR-100.
 - Cấu trúc thư mục code lấy từ mục 4 của [spec](../SPEC_ViT.md), với gốc repo là gốc project (DEC-004).
 

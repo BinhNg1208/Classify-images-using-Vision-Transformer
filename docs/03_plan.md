@@ -21,7 +21,7 @@ TV1 đã xác định (trưởng nhóm, chủ repo); tên thật của TV2-TV5 s
 - Chỉ chuyển sang Hoàn thành khi PR đã có bằng chứng kiểm tra và người duyệt đã xem. AI báo xong chưa đủ.
 - Lỗi phát sinh tạo Issue từ mẫu `.github/ISSUE_TEMPLATE/bug.md`.
 
-**Hiện trạng:** Issue và bảng Projects chưa tạo. Cho đến khi tạo: TASK-000 hoàn thành (nhóm duyệt `docs/` ngày 2026-11-15); TASK-014 hoàn thành (đã nộp mẫu đăng ký, TV1 báo ngày 2026-11-15); TASK-001 hoàn thành (12 test pass, TV1 đọc code ngày 2026-11-16); TASK-002 hoàn thành (18 test pass, chạy trên dữ liệu thật, TV1 đọc code ngày 2026-11-17); TASK-003 hoàn thành (25 test pass, TV1 đọc code ngày 2026-11-17); các đầu việc khác chưa bắt đầu.
+**Hiện trạng:** Issue và bảng Projects chưa tạo. Cho đến khi tạo: TASK-000 hoàn thành (nhóm duyệt `docs/` ngày 2026-11-15); TASK-014 hoàn thành (đã nộp mẫu đăng ký, TV1 báo ngày 2026-11-15); TASK-001 hoàn thành (12 test pass, TV1 đọc code ngày 2026-11-16); TASK-002 hoàn thành (18 test pass, chạy trên dữ liệu thật, TV1 đọc code ngày 2026-11-17); TASK-003 hoàn thành (25 test pass, TV1 đọc code ngày 2026-11-17); TASK-004 hoàn thành (TV2, PR #2 gộp ngày 2026-11-17, 48 test pass); các đầu việc khác chưa bắt đầu.
 
 ## Danh sách đầu việc
 
@@ -36,7 +36,7 @@ TV1 đã xác định (trưởng nhóm, chủ repo); tên thật của TV2-TV5 s
 | TASK-005 | CNN và `match_param_count` | TV3 | FR-003 | TASK-004 |
 | TASK-006 | Vòng lặp train, `--quick`, `--resume` | TV4 | FR-004 | TASK-001, 003, 004, 005 |
 | TASK-007 | Đánh giá và phân tích lỗi | TV5 | FR-005 | TASK-006 |
-| TASK-008 | Trực quan hóa attention | TV2 | FR-006 | TASK-006 |
+| TASK-008 | Trực quan hóa attention | TV2 | FR-006 | Code và test: TASK-004 (làm được ngay, dùng mô hình trọng số ngẫu nhiên); hình thật: checkpoint từ TASK-011 |
 | TASK-009 | Bảng so sánh | TV5 | FR-007 | TASK-007 |
 | TASK-010 | Demo | TV5 | FR-008 | TASK-006 |
 | TASK-011 | Train thật ViT và CNN | TV4 | FR-004 | TASK-006, máy GPU của thành viên sẵn sàng |
@@ -45,7 +45,7 @@ TV1 đã xác định (trưởng nhóm, chủ repo); tên thật của TV2-TV5 s
 
 **Điều kiện bắt đầu code:** Chỉ bắt đầu TASK-001 và các đầu việc code khác sau khi nhóm duyệt `docs/`. Bản thử đầu của TASK-001 viết sai thứ tự nên đã bị xóa.
 
-**Đầu việc tiếp theo:** làm lần lượt TASK-004 (TV2, ViT, tạo `build_model`) → TASK-005 (TV3, CNN) → TASK-006 (TV4, dùng `build_loader` và `build_model` theo [04_data.md](04_data.md), [05_model.md](05_model.md)); TV1 chốt làm lần lượt ngày 2026-11-17; TV1 làm thẳng trên `main` (DEC-014).
+**Đầu việc tiếp theo:** TASK-004 xong; làm lần lượt TASK-005 (TV3, CNN) → TASK-006 (TV4, dùng `build_loader` và `build_model` theo [04_data.md](04_data.md), [05_model.md](05_model.md)); TV1 chốt làm lần lượt ngày 2026-11-17; song song, TV2 làm TASK-008 (code `src/attention.py`); TV1 làm thẳng trên `main` (DEC-014).
 
 ## Mốc và lịch
 

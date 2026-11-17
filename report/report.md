@@ -1,14 +1,52 @@
 # Báo cáo: Phân loại ảnh Tiny ImageNet bằng Vision Transformer
 
-> **Bản nháp, cập nhật ngày 2026-11-17.** Bản này bổ sung phần ViT của TV2 theo TASK-004 và phương án trực quan hóa attention. Các phần còn thiếu được ghi rõ để nhóm tiếp tục ghép báo cáo theo mục 15 của [spec](../SPEC_ViT.md). TASK-004 đang chờ TV1 review tại [PR #2](https://github.com/QuocAn118/Classify-images-using-Vision-Transformer/pull/2); chưa có kết quả huấn luyện hoặc đánh giá trên dữ liệu thật.
+> **Bản nháp, cập nhật ngày 2026-11-17.** Khung theo mục 15 của [spec](../SPEC_ViT.md). Đã có: mục 2 (dữ liệu), 3.1 và 4.1 (ViT). Chưa có kết quả huấn luyện hoặc đánh giá.
+
+**Phân công viết** (theo mục 19 spec; TV5 ghép bản cuối):
+
+| Mục | Người viết | Viết khi có |
+|---|---|---|
+| 1, 2, 8, 9 | TV1 | 2 đã có; 1 viết ngay; 8, 9 sau khi có train, đánh giá, demo |
+| 3.1, 6 | TV2 | 3.1 đã có; 6 sau TASK-008 và checkpoint |
+| 3.2, 6.4 (Grad-CAM, nếu làm) | TV3 | Sau TASK-005 |
+| 3.3, 4 | TV4 | Sau TASK-006, TASK-011 |
+| 5, 7, 10 | TV5 | Sau TASK-007, TASK-009 |
+
+**Quy tắc chung khi viết:**
+- Mọi con số phải dẫn về file trong `outputs/results/` hoặc `outputs/logs/`; chưa có thì ghi "chưa có" (mục 17 spec).
+- Không dùng tập test để chọn cấu hình hay checkpoint; số trên test chỉ chạy một lần sau khi chốt.
+- Hình để trong `outputs/figures/`, chèn bằng đường dẫn tương đối.
+- Mỗi mục bắt đầu bằng danh sách "Cần có" bên dưới; viết xong thì xóa danh sách đó.
 
 ## 1. Vấn đề và phạm vi
 
-Chưa hoàn thiện. TV1 bổ sung bài toán, động cơ so sánh ViT với CNN cùng số tham số và phạm vi đồ án theo [docs/01_define.md](../docs/01_define.md).
+*Người viết: TV1.* Chưa viết.
+
+Cần có: bài toán; vì sao chọn ViT và so sánh với CNN cùng số tham số; phạm vi bắt buộc (ViT tự cài, baseline CNN, attention) và phần mở rộng. Nguồn: [docs/01_define.md](../docs/01_define.md).
 
 ## 2. Dữ liệu
 
-Chưa hoàn thiện. TV1 bổ sung nguồn, cách chia tập, thống kê và ảnh mẫu theo [docs/04_data.md](../docs/04_data.md). File thống kê đã có tại [dataset_stats.json](../outputs/results/dataset_stats.json); chưa kiểm tra lại dữ liệu thật trong buổi viết phần báo cáo này.
+*Người viết: TV1.*
+
+**Nguồn.** Tiny ImageNet của Stanford CS231n, tải từ `https://cs231n.stanford.edu/tiny-imagenet-200.zip` (248 MB). Repo không chứa dữ liệu; `python scripts/prepare_data.py --download` tải và chuẩn bị lại trên mọi máy (DEC-015).
+
+**Quy mô.** 200 lớp, ảnh RGB 64 × 64. Bộ gốc có 100.000 ảnh train (500 ảnh/lớp), 10.000 ảnh val có nhãn và 10.000 ảnh test không có nhãn.
+
+**Chia tập.** Tập test gốc không có nhãn nên bị bỏ. Để có tập chọn cấu hình riêng và tập đánh giá cuối không bị dùng trong lúc phát triển, nhóm chia như sau:
+
+| Tập | Lấy từ | Số ảnh | Mỗi lớp | Dùng để |
+|---|---|---|---|---|
+| Train | 90% train gốc, chia phân tầng, seed 42 | 90.000 | 450 | Huấn luyện, có augmentation |
+| Validation | 10% còn lại của train gốc | 10.000 | 50 | Chọn siêu tham số và checkpoint |
+| Test | Val gốc | 10.000 | 50 | Đánh giá cuối, chạy một lần |
+
+Train và validation lấy từ hai tập chỉ số không giao nhau. Số lượng đọc từ [dataset_stats.json](../outputs/results/dataset_stats.json) và đã đếm lại trên mảng nhãn của cache ngày 2026-11-16.
+
+**Tiền xử lý.** Ảnh được giải mã một lần và lưu thành mảng `uint8` (tổng 1,35 GB) để DataLoader không phải đọc 110.000 file JPEG mỗi epoch. Chuẩn hóa bằng mean/std của ImageNet. Augmentation khi train: RandomCrop 64 với padding 4, lật ngang, RandAugment; validation và test chỉ chuẩn hóa. Mixup/CutMix áp ở vòng lặp train (mục 3.3).
+
+![25 ảnh train ngẫu nhiên kèm tên lớp](../outputs/figures/samples.png)
+
+*Hình 1. 25 ảnh ngẫu nhiên từ tập train (seed 42). Tên lớp lấy từ [class_names.json](../outputs/results/class_names.json).*
 
 ## 3. Phương pháp
 
@@ -74,11 +112,15 @@ Nhánh forward thường dùng `torch.nn.functional.scaled_dot_product_attention
 
 ### 3.2. Baseline CNN và khớp số tham số (TV3)
 
-Chưa có. TV3 bổ sung kiến trúc CNN, cách tìm cấu hình và số tham số thực tế sau TASK-005. Hiện chưa xác minh điều kiện chênh số tham số không quá 5%; không suy ra điều kiện này chỉ từ số tham số ViT.
+*Người viết: TV3.* Chưa có.
+
+Cần có: kiến trúc ResNet nhỏ (stem, số block, độ rộng); cách `match_param_count` chọn cấu hình; số tham số thật và mức chênh so với 6.436.296 của ViT (yêu cầu không quá 5%); FLOPs/MACs của cả hai mô hình, ghi rõ đơn vị.
 
 ### 3.3. Công thức huấn luyện và augmentation
 
-Chưa hoàn thiện. Cấu hình dự kiến và hợp đồng huấn luyện ở [docs/06_training.md](../docs/06_training.md); pipeline dữ liệu ở [docs/04_data.md](../docs/04_data.md). TV4 bổ sung cách triển khai và cấu hình thực tế sau khi có vòng lặp train; hiện chưa có lần huấn luyện hoàn chỉnh.
+*Người viết: TV4.* Chưa có.
+
+Cần có: optimizer, lịch learning rate (warmup, cosine), batch size, số epoch, label smoothing, Mixup/CutMix, AMP, gradient clipping, cách chọn checkpoint trên validation. Lấy giá trị từ `configs/*.yaml` thật đã chạy, không chép từ spec. Nguồn: [docs/06_training.md](../docs/06_training.md).
 
 ## 4. Thực nghiệm
 
@@ -102,11 +144,15 @@ Những bằng chứng trên xác nhận mô hình có thể forward, truyền g
 
 ### 4.2. Huấn luyện, đường cong học và ablation
 
-Chưa có. TV4 bổ sung cấu hình chạy thật, log, đường cong học và các thí nghiệm đã hoàn thành. Top-1, Top-5, thời gian mỗi epoch, tốc độ inference và VRAM đỉnh hiện **chưa có**; không sử dụng kết quả trên batch giả để điền các chỉ số này.
+*Người viết: TV4.* Chưa có.
+
+Cần có: máy và GPU đã dùng; kết quả chính trên validation; đường cong loss và accuracy theo epoch (hình từ `outputs/logs/`); ablation nếu có. Bắt buộc ghi câu: ngân sách 50 epoch có thể làm ViT thiệt hơn CNN, nên kết luận ViT so với CNN chỉ đúng trong ngân sách này. Top-1, Top-5, thời gian mỗi epoch, tốc độ inference và VRAM đỉnh hiện **chưa có**; không dùng kết quả trên batch giả để điền các chỉ số này.
 
 ## 5. So sánh ViT với CNN
 
-Chưa có. TV5 tổng hợp sau khi có kết quả của hai mô hình. Chưa có cơ sở kết luận ViT tốt hơn hoặc kém hơn CNN. Khi bổ sung, bảng phải dẫn về file kết quả thực tế và nêu rõ cùng số tham số không đồng nghĩa cùng chi phí tính toán; FLOPs/MACs chưa đo thì ghi "chưa có".
+*Người viết: TV5.* Chưa có.
+
+Cần có: bảng so sánh theo mục 12 spec (Top-1, Top-5 trên test, số tham số, FLOPs/MACs, thời gian train, tốc độ inference, VRAM đỉnh), dẫn về file kết quả thực tế; nhận xét ViT thiếu inductive bias nên cần nhiều dữ liệu và augmentation; nêu rõ cùng số tham số không đồng nghĩa cùng chi phí tính toán. Chưa có cơ sở kết luận ViT tốt hơn hoặc kém hơn CNN; FLOPs/MACs chưa đo thì ghi "chưa có".
 
 ## 6. Trực quan hóa attention (TV2)
 
@@ -139,15 +185,41 @@ Hàng CLS của $R_L$, bỏ cột CLS, được đưa về lưới patch để t
 | So sánh ảnh dự đoán đúng và sai | Chưa có |
 | Nhận xét vùng được chú ý trên ảnh thật | Chưa có |
 
-Phần này sẽ được cập nhật sau khi có pipeline huấn luyện và checkpoint. Khi phân tích, heatmap được dùng để khảo sát phân bố attention; không coi riêng heatmap là bằng chứng quan hệ nhân quả của quyết định phân loại. Bài [Abnar và Zuidema](https://aclanthology.org/2020.acl-main.385/) cũng phân tích hạn chế của việc dùng attention thô để giải thích khi thông tin đã trộn qua nhiều layer.
+Phần này sẽ được cập nhật sau khi có pipeline huấn luyện và checkpoint (TASK-011). Khi phân tích, heatmap được dùng để khảo sát phân bố attention; không coi riêng heatmap là bằng chứng quan hệ nhân quả của quyết định phân loại. Bài [Abnar và Zuidema](https://aclanthology.org/2020.acl-main.385/) cũng phân tích hạn chế của việc dùng attention thô để giải thích khi thông tin đã trộn qua nhiều layer.
+
+### 6.4. Grad-CAM cho CNN (TV3, nếu làm)
+
+Chưa có. Phần mở rộng, chỉ làm nếu còn thời gian theo thứ tự cắt việc trong [docs/03_plan.md](../docs/03_plan.md).
 
 ## 7. Phân tích lỗi và giới hạn
+
+*Người viết: TV5; mỗi người bổ sung giới hạn của phần mình.*
+
+Cần có: overfit (so sánh đường cong train và validation); lớp hay bị nhầm và ví dụ ảnh sai; ảnh 64 × 64 mất chi tiết; giới hạn tính toán. Bắt buộc có đoạn về độ tin cậy: tập test 10.000 ảnh cho sai số khoảng ±0,5 điểm phần trăm và chỉ chạy 1 seed, nên chênh lệch giữa ViT và CNN dưới khoảng 1–1,5 điểm không đủ để kết luận mô hình nào tốt hơn (nếu chạy 3 seed thì cập nhật câu này).
 
 Giới hạn hiện có của phần ViT: kiểm chứng mới dùng dữ liệu giả trên CPU; chưa đo CUDA, AMP, VRAM, tốc độ hoặc chất lượng phân loại. Chưa có checkpoint huấn luyện để phân tích overfit, lớp hay nhầm hoặc attention trên ảnh thật. Các test truyền gradient và khớp hai nhánh không thay thế đánh giá trên dữ liệu thật.
 
 TV5 và các thành viên bổ sung phân tích lỗi, giới hạn ngân sách huấn luyện và độ tin cậy của kết quả sau khi hoàn thành thí nghiệm. Không kết luận ưu thế giữa hai mô hình khi chưa có số liệu.
 
-## 8. Hướng dẫn cài đặt, chạy và demo
+## 8. Mã nguồn, hướng dẫn cài đặt, chạy và demo
+
+*Người viết: TV1; TV5 bổ sung phần demo.*
+
+**Mã nguồn** (đề yêu cầu nộp kèm):
+
+| File | Chức năng | Người viết | Trạng thái |
+|---|---|---|---|
+| `src/utils.py` | Đọc config, seed, đếm tham số, lưu checkpoint an toàn | TV1 | Có |
+| `scripts/prepare_data.py` | Tải, chia tập, tạo cache | TV1 | Có |
+| `src/data.py` | DataLoader và augmentation | TV1 | Có |
+| `src/models/vit.py`, `src/models/__init__.py` | ViT tự cài, `build_model` | TV2 | Có |
+| `src/models/cnn.py` | ResNet nhỏ, `match_param_count` | TV3 | Chưa có |
+| `src/train.py` | Vòng lặp train | TV4 | Chưa có |
+| `src/evaluate.py`, `scripts/error_analysis.py`, `src/compare.py` | Đánh giá, phân tích lỗi, so sánh | TV5 | Chưa có |
+| `src/attention.py` | CLS attention, rollout | TV2 | Chưa có |
+| `app/demo.py` | Demo Gradio | TV5 | Chưa có |
+
+**Cài đặt và chạy.**
 
 Chưa hoàn thiện phần bàn giao cuối. Hướng dẫn đang chạy được nằm ở [README](../README.md), gồm cài môi trường, chuẩn bị dữ liệu và kiểm thử. Có thể chạy riêng test ViT mà không tải bộ dữ liệu:
 
@@ -159,11 +231,18 @@ TV1 và TV5 bổ sung lệnh train, đánh giá, demo và link checkpoint sau kh
 
 ## 9. Kết luận và hướng phát triển
 
-Chưa có kết luận thực nghiệm ViT so với CNN. Kết quả hiện tại của TV2 là mô hình ViT tự cài, có giao diện lấy attention và các kiểm chứng chức năng nêu trên, đang chờ review. TV1 bổ sung kết luận chung sau khi có kết quả huấn luyện, đánh giá và trực quan hóa.
+*Người viết: TV1.* Chưa có.
+
+Cần có: trả lời hai câu hỏi của đồ án (ViT so với CNN cùng số tham số trong ngân sách 50 epoch; ViT nhìn vào vùng nào khi dự đoán), chỉ dựa trên số liệu ở mục 4–7; hướng phát triển.
 
 ## 10. Tài liệu tham khảo
 
 1. Alexey Dosovitskiy và cộng sự (2020). [An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale](https://arxiv.org/abs/2010.11929). arXiv:2010.11929. Cơ sở kiến trúc ViT; cấu hình trong đồ án được trình bày riêng tại mục 3.1.
 2. Samira Abnar và Willem Zuidema (2020). [Quantifying Attention Flow in Transformers](https://aclanthology.org/2020.acl-main.385/). ACL, trang 4190–4197. Cơ sở phương án attention rollout tại mục 6.2.
 
-Danh mục sẽ được nhóm bổ sung khi ghép các phần CNN, dữ liệu, huấn luyện và phân tích kết quả.
+3. Ya Le và Xuan Yang (2015). Tiny ImageNet Visual Recognition Challenge. Báo cáo môn CS231n, Đại học Stanford. Nguồn dữ liệu tại mục 2.
+4. Hongyi Zhang và cộng sự (2018). [mixup: Beyond Empirical Risk Minimization](https://arxiv.org/abs/1710.09412). ICLR. Dùng ở mục 3.3.
+5. Sangdoo Yun và cộng sự (2019). [CutMix: Regularization Strategy to Train Strong Classifiers with Localizable Features](https://arxiv.org/abs/1905.04899). ICCV. Dùng ở mục 3.3.
+6. Ramprasaath R. Selvaraju và cộng sự (2017). [Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization](https://arxiv.org/abs/1610.02391). ICCV. Chỉ giữ nếu làm mục 6.4.
+
+*TV5 rà lại danh mục khi ghép bản cuối; tài liệu nào không được dẫn trong bài thì bỏ.*

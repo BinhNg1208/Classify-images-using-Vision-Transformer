@@ -152,6 +152,18 @@ Ghi ngắn sau mỗi buổi hoặc mốc đáng kể.
 - **Nguồn và kiểm chứng:** Đối chiếu mô tả với `src/models/vit.py`, factory, YAML, `outputs/results/task004_vit_checks.json` và nhật ký test; không thêm số liệu huấn luyện. Kiểm tra nguồn tham khảo tại arXiv:2010.11929 và ACL Anthology:2020.acl-main.385. Kiểm tra UTF-8, link tương đối, cấu trúc mục, công thức và whitespace; chỉ sửa Markdown nên không chạy lại unit test. Bằng chứng 48 test pass vẫn thuộc buổi triển khai trước.
 - **Giới hạn / bước tiếp theo:** Báo cáo là bản nháp, chưa có kết quả huấn luyện hoặc hình attention; chưa đánh dấu TASK-008 hay báo cáo cuối hoàn thành. Cập nhật commit lên `fork/thanhbinh` để PR #2 nhận phần báo cáo, chờ TV1 review; không push hoặc merge vào main. Quyền GitHub Projects vẫn thiếu như buổi trước.
 
+## 2026-11-17 (TV1 review và gộp PR #2, khung báo cáo)
+
+- **Đầu việc:** review TASK-004 (TV2), gộp vào `main`, cập nhật trạng thái; hoàn thiện khung `report/report.md` cho cả nhóm.
+- **Kết quả / thay đổi chính:**
+  - Gộp PR #2 bằng `git merge --no-ff`, giữ 3 commit tác giả Thanh Binh.
+  - Sửa các dòng "chờ review" (README, `05_model.md`, `AI_Usage.md`) và trạng thái cũ trong `Project_description.md`, `02_architecture.md`, `03_plan.md`.
+  - TASK-008: code và test làm được ngay với mô hình trọng số ngẫu nhiên; chỉ hình thật cần checkpoint.
+  - Báo cáo: giữ phần ViT của TV2; thêm bảng phân công theo mục 19 spec, nội dung bắt buộc của từng mục theo mục 15, mục mã nguồn, tài liệu tham khảo còn thiếu; viết mục 2 (Dữ liệu) từ `dataset_stats.json`.
+- **Bằng chứng kiểm tra:** chạy nhánh PR trong worktree tạm: `python -m pytest -q -W error` → 48 passed; sau khi gộp trên `main`: 48 passed. Không có file dữ liệu/checkpoint trong PR; `git diff --check` sạch. ViT chạy được dưới autocast bf16 ở cả hai nhánh attention.
+- **Điều chưa xác minh:** chưa chạy ViT trên CUDA/AMP fp16 và chưa đo VRAM (TASK-006). Issue #1 có thể phải đóng tay vì PR được gộp bằng git trên máy.
+- **Bước tiếp theo:** TV3 làm TASK-005; TV2 làm TASK-008.
+
 ## Mẫu buổi làm
 - Ngày: [YYYY-MM-DD]
 - Đầu việc: [TASK-xxx — tên]

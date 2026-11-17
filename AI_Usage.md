@@ -20,4 +20,4 @@ Chỉ ghi công cụ và đóng góp đã biết. Phần chưa rõ ghi "chưa x�
 ## Ghi chú
 
 - Phân công cho từng thành viên chưa chốt, nên chưa ghi đóng góp theo tên.
-- Đã có tiện ích, chuẩn bị dữ liệu và DataLoader (TASK-001 đến TASK-003); ViT (TASK-004) đã triển khai trên nhánh riêng, chờ review. Chưa có số liệu huấn luyện/đánh giá; số tham số và kiểm tra mô hình có bằng chứng trong `outputs/results/task004_vit_checks.json`.
+- Đã có tiện ích, chuẩn bị dữ liệu và DataLoader (TASK-001 đến TASK-003); ViT (TASK-004) đã gộp vào `main`. Chưa có số liệu huấn luyện/đánh giá; số tham số và kiểm tra mô hình có bằng chứng trong `outputs/results/task004_vit_checks.json`.
