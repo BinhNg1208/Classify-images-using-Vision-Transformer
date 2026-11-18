@@ -171,3 +171,15 @@ def test_checkpoint_round_trip_with_weights_only(small_cfg):
     restored.load_state_dict(checkpoint["model"])
     with torch.no_grad():
         torch.testing.assert_close(restored(x), model(x), rtol=0, atol=0)
+def test_resnet_small_matches_vit_parameter_count():
+    cnn_cfg = load_config(
+        Path(__file__).resolve().parents[1] / "configs" / "cnn_baseline.yaml"
+    )
+
+    cnn = build_model(cnn_cfg)
+    cnn_params = count_params(cnn)
+
+    vit_params = 6_436_296
+    relative_error = abs(cnn_params - vit_params) / vit_params
+
+    assert relative_error <= 0.05
