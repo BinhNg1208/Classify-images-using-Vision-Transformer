@@ -214,6 +214,15 @@ Ghi ngắn sau mỗi buổi hoặc mốc đáng kể.
 - **Điều tôi giải thích được về code:** `meta device` cho phép tạo cấu trúc mô hình và đếm số phần tử tham số mà không cấp phát tensor trọng số thực.
 - **Điều chưa hiểu / chưa xác minh:** Chưa huấn luyện CNN để so sánh accuracy với ViT; chưa thực hiện Grad-CAM.
 - **Bước tiếp theo:** Hoàn thiện các chỉnh sửa theo review TV1, cập nhật PR #3 và bàn giao.
+
+## 2026-11-19 (review và gộp PR #3)
+
+- **Đầu việc:** TV1 review TASK-005 (TV3) qua hai vòng, gộp PR #3 vào `main`.
+- **Kết quả / thay đổi chính:** vòng 1: `build_model` chạy `match_param_count` mỗi lần tạo CNN (khoảng 52 giây) và hardcode số tham số ViT; TV3 chuyển cấu hình vào `configs/cnn_baseline.yaml`. Vòng 2: hai test `match_param_count` mỗi test khoảng 52 giây; TV3 dựng mô hình trên `torch.device("meta")`. Gộp bằng merge commit để giữ commit của TV3; TV1 sửa thêm dòng trống trong `cnn.py` và nhật ký.
+- **Bằng chứng kiểm tra:** máy TV1 (CPU): `python -m pytest -q -W error` → 52 passed trong 1 phút 30 giây; `build_model` CNN 0,6 giây, 6.476.808 tham số (chênh 0,63% so với ViT 6.436.296); FLOPs mỗi ảnh đo lại bằng `FlopCounterMode` khớp `task005_cnn_checks.json` (CNN 809.050.112, ViT 824.283.136).
+- **Điều chưa xác minh:** chưa chạy CNN trên CUDA, chưa đo VRAM (TASK-006).
+- **Bước tiếp theo:** TV4 làm TASK-006; TV2 làm TASK-008.
+
 ## Mẫu buổi làm
 - Ngày: [YYYY-MM-DD]
 - Đầu việc: [TASK-xxx — tên]

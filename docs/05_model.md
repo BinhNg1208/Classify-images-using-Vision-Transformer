@@ -4,6 +4,8 @@
 
 **TASK-004:** hoàn thành, TV1 review và gộp vào `main` ngày 2026-11-17 qua [PR #2](https://github.com/QuocAn118/Classify-images-using-Vision-Transformer/pull/2). Nhánh nguồn của PR là `BinhNg1208:thanhbinh` trên fork cá nhân do TV2 chưa có quyền push repo gốc. Describe tại [Issue #1](https://github.com/QuocAn118/Classify-images-using-Vision-Transformer/issues/1).
 
+**TASK-005:** hoàn thành, TV1 review hai vòng và gộp vào `main` ngày 2026-11-19 qua [PR #3](https://github.com/QuocAn118/Classify-images-using-Vision-Transformer/pull/3) (nhánh `xbao`).
+
 ## Thành phần làm gì
 Cung cấp ViT tự cài (có lấy được attention) và một ResNet nhỏ có số tham số chênh không quá 5% so với ViT, để so sánh công bằng.
 

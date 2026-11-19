@@ -8,6 +8,7 @@ from torch import Tensor, nn
 
 from src.utils import count_params
 
+
 class BasicBlock(nn.Module):
     """BasicBlock chuẩn với BatchNorm và residual connection."""
 

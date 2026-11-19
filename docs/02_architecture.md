@@ -79,7 +79,7 @@ Muốn đổi hợp đồng nào thì sửa tài liệu và báo cả nhóm trư
 | Mục đích | Lệnh | Trạng thái |
 |---|---|---|
 | Cài đặt | `pip install -r requirements.txt` (máy GPU: cài torch bản CUDA trước) | Chưa thử trên máy sạch |
-| Test | `python -m pytest` ở gốc repo | Đã chạy 2026-11-17 trên máy TV1 (CPU): 25 passed |
+| Test | `python -m pytest` ở gốc repo | Đã chạy 2026-11-19 trên máy TV1 (CPU): 52 passed |
 | Chuẩn bị dữ liệu | `python scripts/prepare_data.py --download` | Đã chạy 2026-11-16 trên máy TV1 |
 
 Lệnh của từng thành phần nằm trong file thành phần đó.
