@@ -10,6 +10,7 @@ from torch import nn
 from src.models import build_model
 from src.models.vit import DropPath
 from src.utils import count_params, load_config
+from src.models.cnn import match_param_count
 
 CONFIG = Path(__file__).resolve().parents[1] / "configs" / "vit_small.yaml"
 
@@ -171,15 +172,44 @@ def test_checkpoint_round_trip_with_weights_only(small_cfg):
     restored.load_state_dict(checkpoint["model"])
     with torch.no_grad():
         torch.testing.assert_close(restored(x), model(x), rtol=0, atol=0)
+
 def test_resnet_small_matches_vit_parameter_count():
-    cnn_cfg = load_config(
-        Path(__file__).resolve().parents[1] / "configs" / "cnn_baseline.yaml"
-    )
+    root = Path(__file__).resolve().parents[1]
+    cnn_cfg = load_config(root / "configs" / "cnn_baseline.yaml")
+    vit_cfg = load_config(root / "configs" / "vit_small.yaml")
 
     cnn = build_model(cnn_cfg)
-    cnn_params = count_params(cnn)
+    vit = build_model(vit_cfg)
 
-    vit_params = 6_436_296
+    cnn_params = count_params(cnn)
+    vit_params = count_params(vit)
+
     relative_error = abs(cnn_params - vit_params) / vit_params
+    assert relative_error <= 0.05
+
+
+def test_resnet_small_output_shape():
+    root = Path(__file__).resolve().parents[1]
+    cfg = load_config(root / "configs" / "cnn_baseline.yaml")
+    model = build_model(cfg).eval()
+
+    with torch.no_grad():
+        output = model(torch.randn(2, 3, 64, 64))
+
+    assert output.shape == (2, 200)
+
+
+def test_match_param_count_finds_valid_configuration():
+    matched_cfg, params = match_param_count(6_436_296)
+
+    relative_error = abs(params - 6_436_296) / 6_436_296
 
     assert relative_error <= 0.05
+    assert matched_cfg.widths == (64, 128, 256, 512)
+    assert matched_cfg.blocks == (1, 2, 2, 1)
+    assert matched_cfg.stem_stride == 2
+
+
+def test_match_param_count_rejects_target_too_small():
+    with pytest.raises(ValueError):
+        match_param_count(1_000)

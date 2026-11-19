@@ -5,6 +5,7 @@ from .cnn import ResNetSmall, match_param_count
 from .vit import VisionTransformer
 
 
+
 def build_model(cfg: dict) -> nn.Module:
     """Tạo mô hình từ data/model trong config, không sửa config của bên gọi."""
     model_cfg = dict(cfg["model"])
@@ -18,19 +19,12 @@ def build_model(cfg: dict) -> nn.Module:
         )
 
     if name == "resnet_small":
-        # Target chính thức là số parameter của ViT-small.
-        target_params = 6_436_296
-
-        matched_cfg, _ = match_param_count(
-            target_params=target_params,
-            num_classes=cfg["data"]["num_classes"],
-        )
-
         return ResNetSmall(
             num_classes=cfg["data"]["num_classes"],
-            widths=matched_cfg.widths,
-            blocks=matched_cfg.blocks,
-            stem_stride=matched_cfg.stem_stride,
+            **{
+                key: tuple(value) if isinstance(value, list) else value
+                for key, value in model_cfg.items()
+            },
         )
 
     raise ValueError(

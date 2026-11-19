@@ -112,10 +112,48 @@ Nhánh forward thường dùng `torch.nn.functional.scaled_dot_product_attention
 
 ### 3.2. Baseline CNN và khớp số tham số (TV3)
 
-*Người viết: TV3.* Chưa có.
+Để so sánh với Vision Transformer, nhóm xây dựng một baseline CNN dựa trên kiến trúc ResNet nhỏ (`ResNetSmall`), sử dụng BasicBlock và BatchNorm. Mô hình được cài đặt bằng PyTorch, không sử dụng kiến trúc dựng sẵn hoặc trọng số pretrained.
 
-Cần có: kiến trúc ResNet nhỏ (stem, số block, độ rộng); cách `match_param_count` chọn cấu hình; số tham số thật và mức chênh so với 6.436.296 của ViT (yêu cầu không quá 5%); FLOPs/MACs của cả hai mô hình, ghi rõ đơn vị.
+**Cấu hình kiến trúc.** Các tham số kiến trúc được khai báo trong `configs/cnn_baseline.yaml`:
 
+| Thuộc tính | Giá trị |
+|---|---|
+| Kiến trúc | ResNet-small |
+| Block | BasicBlock |
+| Normalization | BatchNorm |
+| Số kênh các stage (`widths`) | [64, 128, 256, 512] |
+| Số block mỗi stage (`blocks`) | [1, 2, 2, 1] |
+| Stride của stem | 2 |
+| Ảnh đầu vào | RGB, 64 × 64 |
+| Số lớp đầu ra | 200 |
+
+Cấu hình được truyền vào `ResNetSmall` thông qua `build_model(cfg)`. Các thông số kiến trúc được đọc từ file YAML thay vì hard-code trong hàm khởi tạo mô hình. Việc tạo mô hình không thực hiện tìm kiếm cấu hình khớp số tham số, tránh phát sinh chi phí tính toán không cần thiết ở mỗi lần khởi tạo.
+
+**Khớp số tham số.** Nhóm sử dụng hàm `match_param_count()` trong `src/models/cnn.py` để tìm cấu hình ResNet có số tham số gần với mô hình ViT. Mục tiêu được lấy từ số tham số thực tế của ViT-small là 6.436.296. Cấu hình được chọn phải có sai lệch tương đối không quá 5% so với mục tiêu. Hàm cũng báo `ValueError` khi không tìm được cấu hình đáp ứng yêu cầu.
+
+Sau khi xây dựng mô hình bằng cấu hình đã chọn, số tham số được đếm trực tiếp từ các tham số của mô hình:
+
+| Mô hình | Số tham số | Sai lệch tương đối so với ViT |
+|---|---:|---:|
+| ViT-small | 6.436.296 | — |
+| ResNet-small | 6.476.808 | 0,63% |
+
+Sai lệch 0,63% thấp hơn giới hạn 5%, đáp ứng yêu cầu so sánh hai mô hình có quy mô tham số tương đương.
+
+**Chi phí tính toán.** FLOPs được đo bằng `torch.utils.flop_counter.FlopCounterMode`, với cả hai mô hình ở chế độ `eval()` và đầu vào có shape `(1, 3, 64, 64)`. Kết quả được tính theo FLOPs trên một ảnh:
+
+| Mô hình | FLOPs / ảnh |
+|---|---:|
+| ViT-small | 824.283.136 |
+| ResNet-small | 809.050.112 |
+
+ResNet-small có số FLOPs thấp hơn ViT-small 15.233.024 FLOPs/ảnh, tương đương khoảng 1,85%. Đây là kết quả đo theo cùng công cụ và shape đầu vào. MACs chưa được đo riêng nên không suy diễn hoặc quy đổi từ FLOPs.
+
+**Kiểm chứng cài đặt.** Các kiểm tra được bổ sung trong `tests/test_models.py`, gồm: so sánh số tham số CNN với ViT và xác nhận sai lệch không quá 5%; kiểm tra đầu ra CNN có shape `(2, 200)`; kiểm tra `match_param_count(6_436_296)` tìm được cấu hình hợp lệ; và xác nhận hàm báo `ValueError` với mục tiêu quá nhỏ. Riêng nhóm test mô hình đạt 27 test. Sau khi tích hợp, toàn bộ test suite của repo chạy bằng `python -m pytest -q -W error` đạt **52 passed**.
+
+Các số liệu và kết quả kiểm tra TASK-005 được lưu tại [task005_cnn_checks.json](../outputs/results/task005_cnn_checks.json). Mã nguồn kiến trúc nằm trong [cnn.py](../src/models/cnn.py), cấu hình tại [cnn_baseline.yaml](../configs/cnn_baseline.yaml).
+
+Kết quả trên xác nhận baseline CNN đáp ứng yêu cầu về số tham số tương đương và đã vượt qua các kiểm tra chức năng. Đây là kiểm chứng cài đặt và đo chi phí tính toán, chưa phải kết quả đánh giá độ chính xác sau huấn luyện trên Tiny ImageNet.
 ### 3.3. Công thức huấn luyện và augmentation
 
 *Người viết: TV4.* Chưa có.
