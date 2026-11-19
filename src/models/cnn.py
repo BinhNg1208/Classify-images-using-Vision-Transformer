@@ -6,6 +6,7 @@ from dataclasses import dataclass
 import torch
 from torch import Tensor, nn
 
+from src.utils import count_params
 
 class BasicBlock(nn.Module):
     """BasicBlock chuẩn với BatchNorm và residual connection."""
@@ -202,12 +203,6 @@ class ResNetConfig:
     blocks: tuple[int, int, int, int]
     stem_stride: int
 
-
-def count_parameters(model: nn.Module) -> int:
-    """Đếm toàn bộ parameter của model."""
-    return sum(parameter.numel() for parameter in model.parameters())
-
-
 def match_param_count(
     target_params: int,
     num_classes: int = 200,
@@ -262,13 +257,15 @@ def match_param_count(
     best: tuple[float, ResNetConfig, int] | None = None
 
     for config in candidates:
-        model = ResNetSmall(
-            num_classes=num_classes,
-            widths=config.widths,
-            blocks=config.blocks,
-            stem_stride=config.stem_stride,
-        )
-        params = count_parameters(model)
+        with torch.device("meta"):
+            model = ResNetSmall(
+                num_classes=num_classes,
+                widths=config.widths,
+                blocks=config.blocks,
+                stem_stride=config.stem_stride,
+            )
+
+        params = count_params(model)
         relative_error = abs(params - target_params) / target_params
 
         candidate = (relative_error, config, params)

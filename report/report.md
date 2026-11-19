@@ -154,6 +154,7 @@ ResNet-small có số FLOPs thấp hơn ViT-small 15.233.024 FLOPs/ảnh, tươn
 Các số liệu và kết quả kiểm tra TASK-005 được lưu tại [task005_cnn_checks.json](../outputs/results/task005_cnn_checks.json). Mã nguồn kiến trúc nằm trong [cnn.py](../src/models/cnn.py), cấu hình tại [cnn_baseline.yaml](../configs/cnn_baseline.yaml).
 
 Kết quả trên xác nhận baseline CNN đáp ứng yêu cầu về số tham số tương đương và đã vượt qua các kiểm tra chức năng. Đây là kiểm chứng cài đặt và đo chi phí tính toán, chưa phải kết quả đánh giá độ chính xác sau huấn luyện trên Tiny ImageNet.
+
 ### 3.3. Công thức huấn luyện và augmentation
 
 *Người viết: TV4.* Chưa có.

@@ -198,6 +198,22 @@ Ghi ngắn sau mỗi buổi hoặc mốc đáng kể.
   - Bàn giao phần model cho TASK-006 để tích hợp vào vòng lặp train.
   - Nếu còn trong phạm vi công việc của TV3, thực hiện Grad-CAM hoặc các phép đo bổ sung theo thứ tự cắt việc của nhóm.
 
+## 2026-11-19
+
+- **Đầu việc:** TASK-005, tiếp thu review của TV1.
+- **Kết quả / thay đổi chính:**
+  - Tối ưu `match_param_count()` bằng `torch.device("meta")` để tạo mô hình phục vụ đếm tham số mà không cấp phát bộ nhớ cho trọng số.
+  - Sử dụng `count_params` từ `src.utils`, loại bỏ hàm đếm tham số trùng lặp trong `src/models/cnn.py`.
+- **Bằng chứng kiểm tra:**
+  - `python -m pytest tests/test_models.py -q -W error` → **27 passed in 30.47s**.
+  - `python -m pytest -q -W error` → **52 passed in 36.82s**.
+  - Kết quả đo lưu tại `outputs/results/task005_cnn_checks.json`, sử dụng `torch.utils.flop_counter.FlopCounterMode`, chế độ `eval`, batch size 1, input `(1, 3, 64, 64)`:
+    - ResNet-small: **6.476.808 parameters**, **809.050.112 FLOPs**.
+    - ViT-small: **6.436.296 parameters**, **824.283.136 FLOPs**.
+    - Sai số tương đối số tham số: **0,629%**; ResNet-small có FLOPs thấp hơn ViT-small khoảng **1,848%**.
+- **Điều tôi giải thích được về code:** `meta device` cho phép tạo cấu trúc mô hình và đếm số phần tử tham số mà không cấp phát tensor trọng số thực.
+- **Điều chưa hiểu / chưa xác minh:** Chưa huấn luyện CNN để so sánh accuracy với ViT; chưa thực hiện Grad-CAM.
+- **Bước tiếp theo:** Hoàn thiện các chỉnh sửa theo review TV1, cập nhật PR #3 và bàn giao.
 ## Mẫu buổi làm
 - Ngày: [YYYY-MM-DD]
 - Đầu việc: [TASK-xxx — tên]

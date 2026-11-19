@@ -102,7 +102,7 @@ Ngày 2026-11-17, Windows, Python 3.12.10, torch 2.15.0+cpu; không có CUDA. C�
 | Kiểm tra | Lệnh / bằng chứng | Kết quả |
 |---|---|---|
 | AC-004, AC-005, số tham số, cấu hình lưới khác, lỗi cấu hình, dropout/DropPath, backward hai nhánh, nạp state dict với `weights_only=True` | `python -m pytest tests/test_models.py -q -W error` | 23 passed |
-|  Hồi quy toàn repo | `python -m pytest -q -W error` | 52 passed in 45.22s |
+|  Hồi quy toàn repo | `python -m pytest -q -W error` | 48 passed |
 | Cấu hình ViT mặc định, forward và một bước AdamW trên CPU | [task004_vit_checks.json](../outputs/results/task004_vit_checks.json) | 6.436.296 tham số; logits `(2,200)`; 8 attention `(2,8,65,65)`; gradient mọi tham số hữu hạn; trọng số head thay đổi sau optimizer step |
 | Sai khác logits / sai số tổng hàng attention ở eval | Cùng file JSON | Tối đa khoảng 7,15e-7 / 2,38e-7, đều dưới 1e-4 |
 
@@ -143,7 +143,7 @@ Các số liệu trên là FLOPs được đo bằng công cụ nêu trên; MACs
 - **Đầu vào:** Tensor ảnh `(B,3,H,W)` và cấu hình trong YAML.
 - **Luồng bình thường:** `build_model(cfg)` đọc cấu hình `resnet_small` từ `configs/cnn_baseline.yaml` và tạo ResNet-small.
 - **Quy tắc:** Sử dụng BasicBlock, BatchNorm; cấu hình widths `[64,128,256,512]`, blocks `[1,2,2,1]`, stem stride 2. Số tham số chênh không quá 5% so với ViT.
-- **Lỗi và biên:** - **Lỗi và biên:** Cấu hình ResNet không hợp lệ thì báo lỗi; `match_param_count()` báo `ValueError` nếu không tìm được cấu hình đáp ứng sai số cho phép.
+- **Lỗi và biên:** Cấu hình ResNet không hợp lệ thì báo lỗi; `match_param_count()` báo `ValueError` nếu không tìm được cấu hình đáp ứng sai số cho phép.
 - **Kết quả:** Logits `(B,num_classes)` và mô hình có số tham số đáp ứng AC-006.
 
 ## Tiêu chí nghiệm thu

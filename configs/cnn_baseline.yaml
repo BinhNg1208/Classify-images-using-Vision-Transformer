@@ -1,4 +1,3 @@
-
 # ResNet nhỏ, baseline cùng số tham số với ViT.
 # Phần data và train giống vit_small.yaml.
 

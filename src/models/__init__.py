@@ -1,7 +1,7 @@
 """Điểm tạo mô hình dùng chung; hợp đồng ở docs/05_model.md."""
 from torch import nn
 
-from .cnn import ResNetSmall, match_param_count
+from .cnn import ResNetSmall
 from .vit import VisionTransformer
 
 
