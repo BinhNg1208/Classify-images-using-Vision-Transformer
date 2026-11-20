@@ -1,6 +1,6 @@
 # Đánh giá, attention và so sánh
 
-**Người giữ:** TV5 (đánh giá, so sánh), TV2 (attention). **Đầu việc:** TASK-007, TASK-008, TASK-009, TASK-012. **Code:** đã có `src/attention.py` (TASK-008 trên `thanhbinh`, chờ TV1 review); `src/evaluate.py`, `scripts/error_analysis.py`, `src/compare.py` chưa có.
+**Người giữ:** TV5 (đánh giá, so sánh), TV2 (attention). **Đầu việc:** TASK-007, TASK-008, TASK-009, TASK-012. **Code:** đã có `src/attention.py` (TASK-008 trên `thanhbinh`, chờ TV1 review tại [PR #6](https://github.com/QuocAn118/Classify-images-using-Vision-Transformer/pull/6)); `src/evaluate.py`, `scripts/error_analysis.py`, `src/compare.py` chưa có.
 
 ## Thành phần làm gì
 Đo kết quả cuối trên test, phân tích lỗi, trực quan hóa attention của ViT và sinh bảng so sánh ViT với CNN. Mọi số đều lấy từ file.

@@ -69,5 +69,7 @@
     "CPU only; no new GPU, AMP, VRAM or inference benchmark.",
     "No training rerun or checkpoint/hyperparameter selection using test.",
     "TV4 training code/evidence is on hoangdang, not merged by this task."
-  ]
+  ],
+  "implementation_commit": "8db4115",
+  "pull_request": "https://github.com/QuocAn118/Classify-images-using-Vision-Transformer/pull/6"
 }

@@ -235,7 +235,7 @@ Một số ví dụ trong gallery (confidence là softmax của lớp dự đoá
 
 **Quan sát từ hình.** Ở ảnh `police van` (#8268), CLS map có các vùng nóng trên thân xe, trong khi rollout trải rộng hơn sang vùng lân cận. Ở `walking stick` (#9034), cả hai map tập trung gần vùng sáng ở giữa-bên phải ảnh và ít hơn ở phần nền tối. Với ảnh sai `butcher shop` (#8132), rollout vẫn tô nổi vùng trung tâm/phần quầy phía dưới nhưng dự đoán là `barbershop`; việc có vùng nóng không bảo đảm phân loại đúng. Trường hợp `steel arch bridge` (#5650) bị đoán thành `water tower` cũng cho thấy một dự đoán sai vẫn có confidence đáng kể trong tập minh họa.
 
-Đây là nhận xét định tính trên các ảnh được chọn, không phải kết quả đo định vị vật thể hoặc so sánh độ tốt của hai phương pháp. Heatmap không tự chứng minh vùng nào gây ra quyết định phân loại; mô hình chưa được kiểm tra bằng can thiệp hoặc che vùng trong TASK-008. Bài [Abnar và Zuidema](https://aclanthology.org/2020.acl-main.385/) cũng phân tích hạn chế của attention thô khi thông tin đã trộn qua nhiều layer. Kết quả hình và code đang chờ TV1 review trước khi đánh dấu TASK-008 Hoàn thành.
+Đây là nhận xét định tính trên các ảnh được chọn, không phải kết quả đo định vị vật thể hoặc so sánh độ tốt của hai phương pháp. Heatmap không tự chứng minh vùng nào gây ra quyết định phân loại; mô hình chưa được kiểm tra bằng can thiệp hoặc che vùng trong TASK-008. Bài [Abnar và Zuidema](https://aclanthology.org/2020.acl-main.385/) cũng phân tích hạn chế của attention thô khi thông tin đã trộn qua nhiều layer. Kết quả hình và code đang chờ TV1 review tại [PR #6](https://github.com/QuocAn118/Classify-images-using-Vision-Transformer/pull/6) trước khi đánh dấu TASK-008 Hoàn thành.
 
 ### 6.4. Grad-CAM cho CNN (TV3, nếu làm)
 
